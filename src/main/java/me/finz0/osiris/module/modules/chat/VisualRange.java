@@ -1,0 +1,53 @@
+package me.finz0.osiris.module.modules.chat;
+
+import me.finz0.osiris.command.Command;
+import me.finz0.osiris.module.Module;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class VisualRange extends Module {
+    public VisualRange() {
+        super("VisualRange", Category.CHAT);
+    }
+    List<Entity> knownPlayers = new ArrayList<>();;
+    List<Entity> players;
+
+    public void onUpdate(){
+        if(mc.player == null) return;
+        players = mc.world.loadedEntityList.stream().filter(e-> e instanceof EntityPlayer).collect(Collectors.toList());
+        try {
+            for (Entity e : players) {
+                if (e instanceof EntityPlayer && !e.getName().equalsIgnoreCase(mc.player.getName())) {
+                    if (!knownPlayers.contains(e)) {
+                        Command.sendClientMessage(e.getName() + " entered visual range.");
+                        knownPlayers.add(e);
+                    }
+                }
+            }
+        } catch(Exception e){} // ez no crasherino
+            try {
+                for (Entity e : knownPlayers) {
+                    if (e instanceof EntityPlayer && !e.getName().equalsIgnoreCase(mc.player.getName())) {
+                        if (!players.contains(e)) {
+                            removePlayer(e);
+                        }
+                    }
+                }
+            } catch(Exception e){} // ez no crasherino pt.2
+    }
+
+    private void removePlayer(Entity en){
+        knownPlayers.remove(en);
+    }
+
+    public void onEnable(){
+    }
+
+    public void onDisable(){
+        knownPlayers.clear();
+    }
+}
