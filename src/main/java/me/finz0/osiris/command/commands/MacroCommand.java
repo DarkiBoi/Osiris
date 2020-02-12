@@ -8,8 +8,8 @@ import org.lwjgl.input.Keyboard;
 
 public class MacroCommand extends Command {
     @Override
-    public String getAlias() {
-        return "macro";
+    public String[] getAlias() {
+        return new String[]{"macro", "macros"};
     }
 
     @Override

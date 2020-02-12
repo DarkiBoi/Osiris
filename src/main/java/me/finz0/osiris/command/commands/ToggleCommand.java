@@ -7,8 +7,8 @@ import me.finz0.osiris.module.ModuleManager;
 public class ToggleCommand extends Command {
     boolean found;
     @Override
-    public String getAlias() {
-        return "toggle";
+    public String[] getAlias() {
+        return new String[]{"toggle", "t"};
     }
 
     @Override

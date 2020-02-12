@@ -3,7 +3,7 @@ package me.finz0.osiris.module.modules.misc;
 import de.Hero.settings.Setting;
 import me.finz0.osiris.OsirisMod;
 import me.finz0.osiris.module.Module;
-import me.finz0.osiris.module.modules.gui.Tps;
+import me.finz0.osiris.util.TpsUtils;
 
 import java.text.DecimalFormat;
 
@@ -35,7 +35,9 @@ public class Timer extends Module {
     public float getMultiplier() {
         if (this.isEnabled()) {
             if (tpsSync.getValBoolean()) {
-                return Tps.INSTANCE.getTickRate() / 20 * (float)multiplier.getValDouble();
+                float f = TpsUtils.getTickRate() / 20 * (float)multiplier.getValDouble();
+                if(f < 0.1f) f = 0.1f;
+                return f;
             } else {
                 return (float)multiplier.getValDouble();
             }

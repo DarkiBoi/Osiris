@@ -1,15 +1,15 @@
 package me.finz0.osiris.util;
 
-import me.finz0.osiris.event.ForgeEventProcessor;
+import me.finz0.osiris.event.EventProcessor;
 
 import java.awt.*;
 
 public class Rainbow {
     public static int getInt(){
-        return ForgeEventProcessor.INSTANCE.getRgb();
+        return EventProcessor.INSTANCE.getRgb();
     }
 
     public static Color getColor(){
-        return ForgeEventProcessor.INSTANCE.getC();
+        return EventProcessor.INSTANCE.getC();
     }
 }

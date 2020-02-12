@@ -4,6 +4,7 @@ import de.Hero.settings.Setting;
 import me.finz0.osiris.OsirisMod;
 import me.finz0.osiris.event.events.RenderEvent;
 import me.finz0.osiris.module.Module;
+import me.finz0.osiris.util.OsirisTessellator;
 import me.finz0.osiris.util.Rainbow;
 import me.finz0.osiris.friends.Friends;
 import net.minecraft.client.Minecraft;
@@ -27,6 +28,7 @@ public class Tracers extends Module {
     }
 
     public void onWorldRender(RenderEvent event){
+        OsirisTessellator.prepareGL();
         GlStateManager.pushMatrix();
         mc.world.loadedEntityList.forEach(e->{
             if(e instanceof EntityPlayer && e != mc.player){
@@ -38,6 +40,7 @@ public class Tracers extends Module {
                 }
             }
         });
+        OsirisTessellator.releaseGL();
         GlStateManager.popMatrix();
     }
 

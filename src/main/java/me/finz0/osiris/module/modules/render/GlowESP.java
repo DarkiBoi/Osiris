@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ESP extends Module {
-    public ESP() {
+public class GlowESP extends Module {
+    public GlowESP() {
         super("GlowESP", Category.RENDER);
     }
 

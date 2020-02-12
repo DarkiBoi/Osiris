@@ -35,32 +35,34 @@ public class PotionEffects extends Module {
 
     public void onRender(){
         count = 0;
-        mc.player.getActivePotionEffects().forEach(effect -> {
-            String name = I18n.format(effect.getPotion().getName());
-            double duration = effect.getDuration() / Tps.INSTANCE.getTickRate();
-            int amplifier = effect.getAmplifier() + 1;
-            int color = effect.getPotion().getLiquidColor();
-            double p1 = duration % 60;
-            double p2 = duration / 60;
-            double p3 = p2 % 60;
-            String minutes = format1.format(p3);
-            String seconds = format2.format(p1);
-            String s = name + " " + amplifier + ChatFormatting.GRAY + " " + minutes + ":" + seconds;
-            if(sortUp.getValBoolean()) {
-                if (right.getValBoolean()) {
-                    mc.fontRenderer.drawStringWithShadow(s, (int) x.getValDouble() - mc.fontRenderer.getStringWidth(s), (int) y.getValDouble() + (count * 10), color);
+        try {
+            mc.player.getActivePotionEffects().forEach(effect -> {
+                String name = I18n.format(effect.getPotion().getName());
+                double duration = effect.getDuration() / Tps.INSTANCE.getTickRate();
+                int amplifier = effect.getAmplifier() + 1;
+                int color = effect.getPotion().getLiquidColor();
+                double p1 = duration % 60;
+                double p2 = duration / 60;
+                double p3 = p2 % 60;
+                String minutes = format1.format(p3);
+                String seconds = format2.format(p1);
+                String s = name + " " + amplifier + ChatFormatting.GRAY + " " + minutes + ":" + seconds;
+                if (sortUp.getValBoolean()) {
+                    if (right.getValBoolean()) {
+                        mc.fontRenderer.drawStringWithShadow(s, (int) x.getValDouble() - mc.fontRenderer.getStringWidth(s), (int) y.getValDouble() + (count * 10), color);
+                    } else {
+                        mc.fontRenderer.drawStringWithShadow(s, (int) x.getValDouble(), (int) y.getValDouble() + (count * 10), color);
+                    }
+                    count++;
                 } else {
-                    mc.fontRenderer.drawStringWithShadow(s, (int) x.getValDouble(), (int) y.getValDouble() + (count * 10), color);
+                    if (right.getValBoolean()) {
+                        mc.fontRenderer.drawStringWithShadow(s, (int) x.getValDouble() - mc.fontRenderer.getStringWidth(s), (int) y.getValDouble() + (count * -10), color);
+                    } else {
+                        mc.fontRenderer.drawStringWithShadow(s, (int) x.getValDouble(), (int) y.getValDouble() + (count * -10), color);
+                    }
+                    count++;
                 }
-                count++;
-            } else {
-                if (right.getValBoolean()) {
-                    mc.fontRenderer.drawStringWithShadow(s, (int) x.getValDouble() - mc.fontRenderer.getStringWidth(s), (int) y.getValDouble() + (count * -10), color);
-                } else {
-                    mc.fontRenderer.drawStringWithShadow(s, (int) x.getValDouble(), (int) y.getValDouble() + (count * -10), color);
-                }
-                count++;
-            }
-        });
+            });
+        } catch(NullPointerException e){e.printStackTrace();}
     }
 }

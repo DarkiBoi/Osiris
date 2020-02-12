@@ -1,15 +1,21 @@
 package me.finz0.osiris.util;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import de.Hero.clickgui.ClickGUI;
 import de.Hero.clickgui.Panel;
 import de.Hero.settings.Setting;
 import me.finz0.osiris.OsirisMod;
 import me.finz0.osiris.command.Command;
-import me.finz0.osiris.event.ForgeEventProcessor;
+import me.finz0.osiris.event.EventProcessor;
 import me.finz0.osiris.macro.Macro;
 import me.finz0.osiris.module.Module;
 import me.finz0.osiris.friends.Friend;
 import me.finz0.osiris.friends.Friends;
+import me.finz0.osiris.module.modules.chat.Announcer;
+import me.finz0.osiris.module.modules.chat.AutoGG;
+import me.finz0.osiris.module.modules.chat.AutoReply;
+import me.finz0.osiris.module.modules.chat.Spammer;
+import me.finz0.osiris.waypoint.Waypoint;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
@@ -49,6 +55,12 @@ public class OsirisConfig {
         loadPrefix();
         loadRainbow();
         loadMacros();
+        loadMsgs();
+        loadAutoGG();
+        loadSpammer();
+        loadAutoReply();
+        loadAnnouncer();
+        loadWaypoints();
     }
 
     public void saveBinds() {
@@ -137,6 +149,146 @@ public class OsirisConfig {
 
     }
 
+    public void saveWaypoints() {
+        try {
+            File file = new File(this.Osiris.getAbsolutePath(), "Waypoints.txt");
+            BufferedWriter out = new BufferedWriter(new FileWriter(file));
+            Iterator var3 = OsirisMod.getInstance().waypointManager.getWaypoints().iterator();
+
+            while(var3.hasNext()) {
+                Waypoint w = (Waypoint) var3.next();
+                out.write(w.getName() + ":" + w.getX() + ":" + w.getY() + ":" + w.getZ() + ":" + w.getColor());
+                out.write("\r\n");
+            }
+
+            out.close();
+        } catch (Exception var5) {
+        }
+
+    }
+
+    public void loadWaypoints() {
+        try {
+            File file = new File(this.Osiris.getAbsolutePath(), "Waypoints.txt");
+            FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+            String line;
+            while((line = br.readLine()) != null) {
+                String curLine = line.trim();
+                String name = curLine.split(":")[0];
+                String x = curLine.split(":")[1];
+                int xx = Integer.parseInt(x);
+                String y = curLine.split(":")[2];
+                int yy = Integer.parseInt(y);
+                String z = curLine.split(":")[3];
+                int zz = Integer.parseInt(z);
+                String color = curLine.split(":")[4];
+                int c = Integer.parseInt(color);
+                OsirisMod.getInstance().waypointManager.addWaypoint(new Waypoint(name, xx, yy, zz, c));
+            }
+
+            br.close();
+        } catch (Exception var11) {
+            var11.printStackTrace();
+            saveWaypoints();
+        }
+
+    }
+
+    public void saveAnnouncer() {
+        try {
+            File file = new File(this.Osiris.getAbsolutePath(), "Announcer.txt");
+            BufferedWriter out = new BufferedWriter(new FileWriter(file));
+                out.write("Walk:" + Announcer.walkMessage);
+                out.write("\r\n");
+                out.write("Place:" + Announcer.placeMessage);
+                out.write("\r\n");
+                out.write("Jump:" + Announcer.jumpMessage);
+                out.write("\r\n");
+                out.write("Break:" + Announcer.breakMessage);
+                out.write("\r\n");
+                out.write("Attack:" + Announcer.attackMessage);
+                out.write("\r\n");
+                out.write("Eat:" + Announcer.eatMessage);
+                out.write("\r\n");
+                out.write("ClickGUI:" + Announcer.guiMessage);
+                out.write("\r\n");
+
+            out.close();
+        } catch (Exception var5) {
+        }
+
+    }
+
+    public void loadAnnouncer() {
+        try {
+            File file = new File(this.Osiris.getAbsolutePath(), "Announcer.txt");
+            FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+            String line;
+            while((line = br.readLine()) != null) {
+                String curLine = line.trim();
+                String name = curLine.split(":")[0];
+                String message = curLine.split(":")[1];
+                if(name.equalsIgnoreCase("Walk")) Announcer.walkMessage = message;
+                if(name.equalsIgnoreCase("Place")) Announcer.placeMessage = message;
+                if(name.equalsIgnoreCase("Jump")) Announcer.jumpMessage = message;
+                if(name.equalsIgnoreCase("Break")) Announcer.breakMessage = message;
+                if(name.equalsIgnoreCase("Attack")) Announcer.attackMessage = message;
+                if(name.equalsIgnoreCase("Eat")) Announcer.eatMessage = message;
+                if(name.equalsIgnoreCase("ClickGUI")) Announcer.guiMessage = message;
+            }
+
+            br.close();
+        } catch (Exception var11) {
+            var11.printStackTrace();
+            saveAnnouncer();
+        }
+
+    }
+
+    public void saveSpammer() {
+        try {
+            File file = new File(this.Osiris.getAbsolutePath(), "Spammer.txt");
+            BufferedWriter out = new BufferedWriter(new FileWriter(file));
+            Iterator var3 = Spammer.text.iterator();
+
+            while(var3.hasNext()) {
+                String s = (String)var3.next();
+                out.write(s);
+                out.write("\r\n");
+            }
+
+            out.close();
+        } catch (Exception var5) {
+        }
+
+    }
+
+    public void loadSpammer() {
+        try {
+            File file = new File(this.Osiris.getAbsolutePath(), "Spammer.txt");
+            FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+            String line;
+            while((line = br.readLine()) != null) {
+                Spammer.text.add(line);
+            }
+
+            br.close();
+        } catch (Exception var11) {
+            var11.printStackTrace();
+            saveSpammer();
+        }
+
+    }
+
     public void saveMods() {
         try {
             File file = new File(this.Osiris.getAbsolutePath(), "EnabledModules.txt");
@@ -182,6 +334,7 @@ public class OsirisConfig {
             DataInputStream in = new DataInputStream(fstream);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
+            Friends.friends.clear();
             String line;
             while((line = br.readLine()) != null) {
                 OsirisMod.getInstance().friends.addFriend(line);
@@ -278,11 +431,76 @@ public class OsirisConfig {
 
     }
 
+    public void saveAutoGG() {
+        try {
+            File file = new File(this.Osiris.getAbsolutePath(), "AutoGgMessage.txt");
+            BufferedWriter out = new BufferedWriter(new FileWriter(file));
+            for(String s : AutoGG.getAutoGgMessages()) {
+                out.write(s);
+                out.write("\r\n");
+            }
+            out.close();
+        } catch (Exception var3) {
+        }
+
+    }
+
+    public void loadAutoGG() {
+        try {
+            File file = new File(this.Osiris.getAbsolutePath(), "AutoGgMessage.txt");
+            FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+            String line;
+            while((line = br.readLine()) != null) {
+                AutoGG.addAutoGgMessage(line);
+            }
+
+            br.close();
+        } catch (Exception var6) {
+            var6.printStackTrace();
+            this.saveAutoGG();
+        }
+
+    }
+
+    public void saveAutoReply() {
+        try {
+            File file = new File(this.Osiris.getAbsolutePath(), "AutoReplyMessage.txt");
+            BufferedWriter out = new BufferedWriter(new FileWriter(file));
+            out.write(AutoReply.getReply());
+            out.close();
+        } catch (Exception var3) {
+        }
+
+    }
+
+    public void loadAutoReply() {
+        try {
+            File file = new File(this.Osiris.getAbsolutePath(), "AutoReplyMessage.txt");
+            FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+            String line;
+            while((line = br.readLine()) != null) {
+                AutoReply.setReply(line);
+            }
+
+            br.close();
+        } catch (Exception var6) {
+            var6.printStackTrace();
+            this.saveAutoReply();
+        }
+
+    }
+
     public void saveRainbow() {
         try {
             File file = new File(this.Osiris.getAbsolutePath(), "RainbowSpeed.txt");
             BufferedWriter out = new BufferedWriter(new FileWriter(file));
-            out.write(ForgeEventProcessor.INSTANCE.getRainbowSpeed() + "");
+            out.write(EventProcessor.INSTANCE.getRainbowSpeed() + "");
             //out.write("\r\n");
             out.close();
         } catch (Exception var3) {
@@ -298,12 +516,52 @@ public class OsirisConfig {
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String line;
             while((line = br.readLine()) != null) {
-                ForgeEventProcessor.INSTANCE.setRainbowSpeed(Integer.parseInt(line));
+                EventProcessor.INSTANCE.setRainbowSpeed(Integer.parseInt(line));
             }
             br.close();
         } catch (Exception var6) {
             var6.printStackTrace();
             saveRainbow();
+        }
+
+    }
+
+    public void saveMsgs() {
+        try {
+            File file = new File(this.Osiris.getAbsolutePath(), "ClientMessages.txt");
+            BufferedWriter out = new BufferedWriter(new FileWriter(file));
+            out.write(Command.MsgWaterMark + "");
+            out.write(",");
+            out.write(Command.cf.getName());
+            out.close();
+        } catch (Exception var3) {
+        }
+
+    }
+
+    public void loadMsgs() {
+        try {
+            File file = new File(this.Osiris.getAbsolutePath(), "ClientMessages.txt");
+            FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+            String line;
+            while((line = br.readLine()) != null) {
+                String curLine = line.trim();
+                String watermark = curLine.split(",")[0];
+                String color = curLine.split(",")[1];
+                boolean w = Boolean.parseBoolean(watermark);
+                ChatFormatting c = ChatFormatting.getByName(color);
+                Command.cf = c;
+                Command.MsgWaterMark = w;
+
+            }
+
+            br.close();
+        } catch (Exception var11) {
+            var11.printStackTrace();
+            this.saveMsgs();
         }
 
     }

@@ -24,9 +24,9 @@ apply plugin: 'com.github.johnrengelman.shadow'
 version project.modVersion
 group project.modGroup // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 
-sourceCompatibility = targetCompatibility = '1.8'
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 minecraft {
@@ -67,6 +67,7 @@ dependencies {
     }
     compile "com.github.ZeroMemes:Alpine:1.5"
     compile group: 'net.jodah', name: 'typetools', version: '0.5.0'
+    compile group: "com.googlecode.json-simple", name: "json-simple", version: "1.1.1"
     //compile group: 'org.yaml', name: 'snakeyaml', version: '1.19'
     //compile(group: 'org.reflections', name: 'reflections', version: '0.9.11') {
     //    exclude group: 'com.google.guava', module: 'guava'
@@ -100,6 +101,7 @@ shadowJar {
         include(dependency('org.spongepowered:mixin'))
         include(dependency('com.github.ZeroMemes:Alpine'))
         include(dependency('net.jodah:typetools'))
+        include(dependency('com.googlecode.json-simple:json-simple:1.1.1'))
         //include(dependency('org.yaml:snakeyaml'))
         //include(dependency('org.reflections:reflections'))
         //include(dependency('org.javassist:javassist'))

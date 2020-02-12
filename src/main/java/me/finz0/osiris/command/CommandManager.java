@@ -22,6 +22,15 @@ public class CommandManager {
         addCommand(new RainbowSpeedCommand());
         addCommand(new MacroCommand());
         addCommand(new ConfigCommand());
+        addCommand(new ClientMsgsCommand());
+        addCommand(new AutoGgCommand());
+        addCommand(new OpenFolderCommand());
+        addCommand(new LoadSpammerCommand());
+        addCommand(new AutoReplyCommand());
+        addCommand(new MiddleXCommand());
+        addCommand(new LoadAnnouncerCommand());
+        addCommand(new WaypointCommand());
+        addCommand(new FontCommand());
     }
 
     public static void addCommand(Command c){
@@ -38,12 +47,14 @@ public class CommandManager {
         String args = input.substring(command.length()).trim();
         b = false;
         commands.forEach(c ->{
-            if(c.getAlias().equalsIgnoreCase(command)) {
-                b = true;
-                try {
-                    c.onCommand(args, args.split(" "));
-                } catch (Exception e) {
-                    Command.sendClientMessage(ChatFormatting.DARK_RED + c.getSyntax());
+            for(String s : c.getAlias()) {
+                if (s.equalsIgnoreCase(command)) {
+                    b = true;
+                    try {
+                        c.onCommand(args, args.split(" (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)"));
+                    } catch (Exception e) {
+                        Command.sendClientMessage(ChatFormatting.DARK_RED + c.getSyntax());
+                    }
                 }
             }
         });

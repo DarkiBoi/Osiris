@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Friends {
-    static List<Friend> friends;
+    public static List<Friend> friends;
     public Friends(){
         friends = new ArrayList<>();
     }

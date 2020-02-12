@@ -9,8 +9,8 @@ import me.finz0.osiris.module.ModuleManager;
 
 public class SetCommand extends Command {
     @Override
-    public String getAlias() {
-        return "set";
+    public String[] getAlias() {
+        return new String[]{"set"};
     }
 
     @Override

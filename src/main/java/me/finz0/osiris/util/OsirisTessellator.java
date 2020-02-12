@@ -1,6 +1,5 @@
 package me.finz0.osiris.util;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -60,6 +59,8 @@ public class OsirisTessellator extends Tessellator {
         GlStateManager.enableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.enableDepth();
+        GlStateManager.color(1,1,1);
+        GL11.glColor4f(1, 1, 1, 1);
     }
 
     public static void drawBox(BlockPos blockPos, int argb, int sides) {
@@ -247,7 +248,15 @@ public class OsirisTessellator extends Tessellator {
         GlStateManager.popMatrix();
     }
 
-    public static void drawLogoutBox(final AxisAlignedBB bb, final float width, final int red, final int green, final int blue, final int alpha) {
+    public static void drawBoundingBoxBottom(final AxisAlignedBB bb, final float width, final int argb) {
+        final int a = argb >>> 24 & 0xFF;
+        final int r = argb >>> 16 & 0xFF;
+        final int g = argb >>> 8 & 0xFF;
+        final int b = argb & 0xFF;
+        drawBoundingBoxBottom(bb, width, r, g, b, a);
+    }
+
+    public static void drawBoundingBoxBottom(final AxisAlignedBB bb, final float width, final int red, final int green, final int blue, final int alpha) {
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.disableDepth();
@@ -259,22 +268,14 @@ public class OsirisTessellator extends Tessellator {
         //final BufferBuilder bufferbuilder = tessellator.getBuffer();
         final BufferBuilder bufferbuilder = INSTANCE.getBuffer();
         bufferbuilder.begin(3, DefaultVertexFormats.POSITION_COLOR);
-        bufferbuilder.pos(bb.minX / 2, bb.minY, bb.minZ / 2).color(red, green, blue, alpha).endVertex();
-        bufferbuilder.pos(bb.minX / 2, bb.minY, bb.maxZ / 2).color(red, green, blue, alpha).endVertex();
-        bufferbuilder.pos(bb.maxX / 2, bb.minY, bb.maxZ / 2).color(red, green, blue, alpha).endVertex();
-        bufferbuilder.pos(bb.maxX / 2, bb.minY, bb.minZ / 2).color(red, green, blue, alpha).endVertex();
-        bufferbuilder.pos(bb.minX / 2, bb.minY, bb.minZ / 2).color(red, green, blue, alpha).endVertex();
-        bufferbuilder.pos(bb.minX / 2, bb.maxY * 2, bb.minZ / 2).color(red, green, blue, alpha).endVertex();
-        bufferbuilder.pos(bb.minX / 2, bb.maxY * 2, bb.maxZ / 2).color(red, green, blue, alpha).endVertex();
-        bufferbuilder.pos(bb.minX / 2, bb.minY, bb.maxZ / 2).color(red, green, blue, alpha).endVertex();
-        bufferbuilder.pos(bb.maxX / 2, bb.minY, bb.maxZ / 2).color(red, green, blue, alpha).endVertex();
-        bufferbuilder.pos(bb.maxX / 2, bb.maxY * 2, bb.maxZ / 2).color(red, green, blue, alpha).endVertex();
-        bufferbuilder.pos(bb.minX / 2, bb.maxY * 2, bb.maxZ / 2).color(red, green, blue, alpha).endVertex();
-        bufferbuilder.pos(bb.maxX / 2, bb.maxY * 2, bb.maxZ / 2).color(red, green, blue, alpha).endVertex();
-        bufferbuilder.pos(bb.maxX / 2, bb.maxY * 2, bb.minZ / 2).color(red, green, blue, alpha).endVertex();
-        bufferbuilder.pos(bb.maxX / 2, bb.minY, bb.minZ / 2).color(red, green, blue, alpha).endVertex();
-        bufferbuilder.pos(bb.maxX / 2, bb.maxY * 2, bb.minZ / 2).color(red, green, blue, alpha).endVertex();
-        bufferbuilder.pos(bb.minX / 2, bb.maxY * 2, bb.minZ / 2).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.minX, bb.minY, bb.minZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.minX, bb.minY, bb.maxZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.maxX, bb.minY, bb.maxZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.maxX, bb.minY, bb.minZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.minX, bb.minY, bb.minZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.minX, bb.minY, bb.maxZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.maxX, bb.minY, bb.maxZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.maxX, bb.minY, bb.minZ).color(red, green, blue, alpha).endVertex();
         //tessellator.draw();
         render();
         GlStateManager.depthMask(true);

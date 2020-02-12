@@ -6,8 +6,8 @@ import org.lwjgl.input.Keyboard;
 
 public class BindCommand extends Command {
     @Override
-    public String getAlias() {
-        return "bind";
+    public String[] getAlias() {
+        return new String[]{"bind", "b"};
     }
 
     @Override

@@ -4,8 +4,8 @@ import me.finz0.osiris.command.Command;
 
 public class PrefixCommand extends Command {
     @Override
-    public String getAlias() {
-        return "prefix";
+    public String[] getAlias() {
+        return new String[]{"prefix", "setprefix"};
     }
 
     @Override

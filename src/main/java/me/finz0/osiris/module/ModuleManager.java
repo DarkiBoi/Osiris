@@ -31,11 +31,13 @@ public class ModuleManager {
         addMod(new AntiChainPop());
         addMod(new HoleFill());
         addMod(new Criticals());
+        addMod(new SmartOffhand());
         //Player
         addMod(new Blink());
         addMod(new PortalGodMode());
         addMod(new FastUse());
         addMod(new NoSwing());
+        addMod(new SpeedMine());
         //Movement
         addMod(new Sprint());
         addMod(new Velocity());
@@ -44,24 +46,38 @@ public class ModuleManager {
         addMod(new ElytraFly());
         addMod(new NoSlow());
         addMod(new Speed());
+    //    addMod(new Jesus());
         //Misc
         addMod(new Timer());
         addMod(new NoEntityTrace());
         addMod(new XCarry());
         addMod(new AutoNomadHut());
         addMod(new RpcModule());
-    //    addMod(new LogoutSpots());
+        addMod(new Notifications());
+        addMod(new LogoutSpots());
         addMod(new SnakeModule());
         addMod(new AutoRespawn());
+        addMod(new AutoBackdoor());
+        addMod(new CropNuker());
+        addMod(new MiddleClickFriends());
+        addMod(new DeathWaypoint());
+        addMod(new ClinetTimer());
         //Chat
         addMod(new VisualRange());
         addMod(new BetterChat());
         addMod(new ToggleMsgs());
         addMod(new Announcer());
         addMod(new UwuChat());
-    //    addMod(new Welcomer());
+        addMod(new AutoGG());
+        addMod(new DotGodSpammer());
+        addMod(new Spammer());
+        addMod(new AutoReply());
+        addMod(new Welcomer());
+        addMod(new ColorChat());
+        addMod(new ChatSuffix());
+        addMod(new KettuLinuxDupe());
         //Render
-        addMod(new ESP());
+        addMod(new GlowESP());
         addMod(new CameraClip());
         addMod(new Brightness());
         addMod(new LowHands());
@@ -70,9 +86,12 @@ public class ModuleManager {
         addMod(new BlockHighlight());
         addMod(new NoRender());
         addMod(new Tracers());
-        addMod(new ESP2());
+        addMod(new CsgoESP());
         addMod(new ExpESP());
+        addMod(new CapesModule());
     //    addMod(new Nametags());
+        addMod(new HitboxESP());
+        addMod(new FovModule());
         //GUI
         addMod(new ModList());
         addMod(new ClickGuiModule());
@@ -91,6 +110,7 @@ public class ModuleManager {
         addMod(new WelcomerGui());
         addMod(new Bps());
         addMod(new PotionEffects());
+        addMod(new NotificationsHud());
     }
 
     public static void addMod(Module m){
@@ -98,11 +118,11 @@ public class ModuleManager {
     }
 
     public static void onUpdate() {
-        modules.stream().filter(module ->  module.isEnabled()).forEach(module -> module.onUpdate());
+        modules.stream().filter(Module::isEnabled).forEach(Module::onUpdate);
     }
 
     public static void onRender() {
-        modules.stream().filter(module -> module.isEnabled()).forEach(module ->  module.onRender());
+        modules.stream().filter(Module::isEnabled).forEach(Module::onRender);
     }
 
     public static void onWorldRender(RenderWorldLastEvent event) {

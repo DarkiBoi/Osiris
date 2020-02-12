@@ -7,8 +7,8 @@ import me.finz0.osiris.module.ModuleManager;
 public class DrawnCommand extends Command {
     boolean found;
     @Override
-    public String getAlias() {
-        return "drawn";
+    public String[] getAlias() {
+        return new String[]{"drawn", "visible", "d"};
     }
 
     @Override

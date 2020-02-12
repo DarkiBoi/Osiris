@@ -55,13 +55,13 @@ public class ModuleButton {
 		 */
 		if (OsirisMod.getInstance().settingsManager.getSettingsByMod(imod) != null)
 			for (Setting s : OsirisMod.getInstance().settingsManager.getSettingsByMod(imod)) {
-				if (s.isCheck()) {
-					menuelements.add(new ElementCheckBox(this, s));
-				} else if (s.isSlider()) {
-					menuelements.add(new ElementSlider(this, s));
-				} else if (s.isCombo()) {
-					menuelements.add(new ElementComboBox(this, s));
-				}
+					if (s.isCheck()) {
+						menuelements.add(new ElementCheckBox(this, s));
+					} else if (s.isSlider()) {
+						menuelements.add(new ElementSlider(this, s));
+					} else if (s.isCombo()) {
+						menuelements.add(new ElementComboBox(this, s));
+					}
 			}
 
 	}
@@ -76,6 +76,8 @@ public class ModuleButton {
 		int color = new Color(temp.getRed(), temp.getGreen(), temp.getBlue(), 150).getRGB();
 		if(OsirisMod.getInstance().settingsManager.getSettingByName("Design").getValString().equalsIgnoreCase("f0nzi"))
 			color = 0xbb606060;
+		if(OsirisMod.getInstance().settingsManager.getSettingByName("Design").getValString().equalsIgnoreCase("Windows"))
+			color = 0xffffffff;
 		
 		/*
 		 * Ist das Module an, wenn ja dann soll
@@ -88,6 +90,8 @@ public class ModuleButton {
 			textcolor = 0xffefefef;
 			if(OsirisMod.getInstance().settingsManager.getSettingByName("Design").getValString().equalsIgnoreCase("f0nzi"))
 				textcolor = ColorUtil.getClickGUIColor().getRGB();
+			if(OsirisMod.getInstance().settingsManager.getSettingByName("Design").getValString().equalsIgnoreCase("Windows"))
+				textcolor = Color.BLUE.getRGB();
 		}
 		
 		/*
@@ -100,7 +104,14 @@ public class ModuleButton {
 		/*
 		 * Den Namen des Modules in die Mitte (x und y) rendern
 		 */
-		FontUtil.drawTotalCenteredStringWithShadow(mod.getName(), x + width / 2, y + 1 + height / 2, textcolor);
+		if(OsirisMod.getInstance().settingsManager.getSettingByName("Design").getValString().equalsIgnoreCase("Windows")) {
+			if(!mod.isEnabled())
+				FontUtil.drawTotalCenteredString(mod.getName(), x + width / 2, y + 1 + height / 2, Color.BLACK.getRGB());
+			else
+				FontUtil.drawTotalCenteredString(mod.getName(), x + width / 2, y + 1 + height / 2, textcolor);
+		}else {
+			FontUtil.drawTotalCenteredStringWithShadow(mod.getName(), x + width / 2, y + 1 + height / 2, textcolor);
+		}
 	}
 
 	/*

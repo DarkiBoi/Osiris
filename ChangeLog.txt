@@ -1,8 +1,2 @@
--added Macros, use `-macro <add | del> <Keybind> <Message to send (for spaces use "_")>`
--added UwuChat uwu
--added Strafe
--added `-saveconfig` command
--AutoRespawn fix
--fixed FastUse settings not saving
--friends show in blue on tab list
--added new ClickGui Design
+-fixed timer
+-t

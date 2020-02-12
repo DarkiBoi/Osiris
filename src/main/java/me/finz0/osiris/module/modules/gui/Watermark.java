@@ -21,6 +21,7 @@ public class Watermark extends Module {
     Setting x;
     Setting y;
     Setting rainbow;
+    Setting customFont;
 
     public void setup(){
         red = new Setting("MarkRed", this, 255, 0, 255, true);
@@ -35,14 +36,21 @@ public class Watermark extends Module {
         OsirisMod.getInstance().settingsManager.rSetting(y);
         rainbow = new Setting("MarkRainbow", this, true);
         OsirisMod.getInstance().settingsManager.rSetting(rainbow);
+        OsirisMod.getInstance().settingsManager.rSetting(customFont = new Setting("markCustomFont", this, true));
     }
 
     public void onRender(){
         Color c = new Color((int)red.getValDouble(), (int)green.getValDouble(), (int)blue.getValDouble());
         if(rainbow.getValBoolean()){
-            mc.fontRenderer.drawStringWithShadow(OsirisMod.MODNAME + " " + OsirisMod.MODVER, (int) x.getValDouble(), (int) y.getValDouble(), Rainbow.getInt());
+            if(customFont.getValBoolean())
+                OsirisMod.fontRenderer.drawStringWithShadow(OsirisMod.MODNAME + " " + OsirisMod.MODVER, (int) x.getValDouble(), (int) y.getValDouble(), Rainbow.getInt());
+            else
+                mc.fontRenderer.drawStringWithShadow(OsirisMod.MODNAME + " " + OsirisMod.MODVER, (int) x.getValDouble(), (int) y.getValDouble(), Rainbow.getInt());
         } else {
-            mc.fontRenderer.drawStringWithShadow(OsirisMod.MODNAME + " " + OsirisMod.MODVER, (int) x.getValDouble(), (int) y.getValDouble(), c.getRGB());
+            if(customFont.getValBoolean())
+                OsirisMod.fontRenderer.drawStringWithShadow(OsirisMod.MODNAME + " " + OsirisMod.MODVER, (int) x.getValDouble(), (int) y.getValDouble(), c.getRGB());
+            else
+                mc.fontRenderer.drawStringWithShadow(OsirisMod.MODNAME + " " + OsirisMod.MODVER, (int) x.getValDouble(), (int) y.getValDouble(), c.getRGB());
         }
     }
 }

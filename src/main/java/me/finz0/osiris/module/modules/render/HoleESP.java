@@ -8,7 +8,6 @@ import me.finz0.osiris.util.GeometryMasks;
 import me.finz0.osiris.util.OsirisTessellator;
 import me.finz0.osiris.util.Rainbow;
 import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -29,8 +28,9 @@ public class HoleESP extends Module {
     Setting g;
     Setting b;
     Setting a;
-    Setting onlyBottom;
     Setting rainbow;
+    Setting mode;
+    Setting width;
 
     private final BlockPos[] surroundOffset = {
             new BlockPos(0, -1, 0), // down
@@ -41,6 +41,11 @@ public class HoleESP extends Module {
     };
 
     public void setup(){
+        ArrayList<String> modes = new ArrayList<>();
+        modes.add("Full");
+        modes.add("Bottom");
+        modes.add("Outline");
+        modes.add("OutlineBottom");
         rangeS = new Setting("heRange", this, 8, 0, 20, true);
         OsirisMod.getInstance().settingsManager.rSetting(rangeS);
         r = new Setting("heRed", this, 255, 0, 255, true);
@@ -51,9 +56,9 @@ public class HoleESP extends Module {
         OsirisMod.getInstance().settingsManager.rSetting(b);
         a = new Setting("heAlpha", this, 50, 0, 255, true);
         OsirisMod.getInstance().settingsManager.rSetting(a);
-        onlyBottom = new Setting("OnlyBottom", this, false);
-        OsirisMod.getInstance().settingsManager.rSetting(onlyBottom);
         OsirisMod.getInstance().settingsManager.rSetting(rainbow = new Setting("heRainbow", this, false));
+        OsirisMod.getInstance().settingsManager.rSetting(mode = new Setting("heMode", this, "Full", modes));
+        OsirisMod.getInstance().settingsManager.rSetting(width = new Setting("heLineWidth", this, 3, 1, 10, true));
     }
 
     private ConcurrentHashMap<BlockPos, Boolean> safeHoles;
@@ -112,7 +117,6 @@ public class HoleESP extends Module {
 
     @Override
     public void onWorldRender(final RenderEvent event) {
-
         if (mc.player == null || safeHoles == null) {
             return;
         }
@@ -121,25 +125,32 @@ public class HoleESP extends Module {
             return;
         }
 
-        OsirisTessellator.prepare(GL11.GL_QUADS);
+        if(!mode.getValString().equalsIgnoreCase("Outline") && !mode.getValString().equalsIgnoreCase("OutlineBottom"))
+            OsirisTessellator.prepare(GL11.GL_QUADS);
 
         safeHoles.forEach((blockPos, isBedrock) -> {
             drawBox(blockPos, (int)r.getValDouble(), (int)g.getValDouble(), (int)b.getValDouble());
         });
 
-        OsirisTessellator.release();
+        if(!mode.getValString().equalsIgnoreCase("Outline") && !mode.getValString().equalsIgnoreCase("OutlineBottom"))
+            OsirisTessellator.release();
 
     }
 
     private void drawBox(BlockPos blockPos, int r, int g, int b) {
         Color color;
         Color c = Rainbow.getColor();
+        AxisAlignedBB bb = mc.world.getBlockState(blockPos).getSelectedBoundingBox(mc.world, blockPos);
         if(rainbow.getValBoolean())
             color = new Color(c.getRed(), c.getGreen(), c.getBlue(), (int)a.getValDouble());
         else
             color = new Color(r, g, b, (int)a.getValDouble());
-        if (onlyBottom.getValBoolean()) {
+        if(mode.getValString().equalsIgnoreCase("Outline")){
+            OsirisTessellator.drawBoundingBox(bb, width.getValInt(), color.getRGB());
+        } else if (mode.getValString().equalsIgnoreCase("Bottom")) {
             OsirisTessellator.drawBox(blockPos, color.getRGB(), GeometryMasks.Quad.DOWN);
+        } else if(mode.getValString().equalsIgnoreCase("OutlineBottom")){
+            OsirisTessellator.drawBoundingBoxBottom(bb, width.getValInt(), color.getRGB());
         } else {
             OsirisTessellator.drawBox(blockPos, color.getRGB(), GeometryMasks.Quad.ALL);
         }

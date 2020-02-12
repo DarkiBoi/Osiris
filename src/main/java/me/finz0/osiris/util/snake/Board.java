@@ -46,6 +46,8 @@ public class Board extends JPanel implements ActionListener {
 
     int score;
 
+    boolean paused = false;
+
     public Board() {
 
         initBoard();
@@ -75,6 +77,7 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void initGame() {
+        paused = false;
 
         dots = 3;
 
@@ -100,18 +103,20 @@ public class Board extends JPanel implements ActionListener {
     private void doDrawing(Graphics g) {
 
         if (inGame) {
+                g.drawImage(apple, apple_x, apple_y, this);
 
-            g.drawImage(apple, apple_x, apple_y, this);
-
-            for (int z = 0; z < dots; z++) {
-                if (z == 0) {
-                    g.drawImage(head, x[z], y[z], this);
-                } else {
-                    g.drawImage(ball, x[z], y[z], this);
+                for (int z = 0; z < dots; z++) {
+                    if (z == 0) {
+                        g.drawImage(head, x[z], y[z], this);
+                    } else {
+                        g.drawImage(ball, x[z], y[z], this);
+                    }
                 }
-            }
 
-            Toolkit.getDefaultToolkit().sync();
+                if(paused)
+                    paused(g);
+
+                Toolkit.getDefaultToolkit().sync();
 
         } else {
 
@@ -132,6 +137,16 @@ public class Board extends JPanel implements ActionListener {
             Minecraft.getMinecraft().player.sendChatMessage("I just got a score of " + score + " in Snake thanks to Osiris!");
     }
 
+    private void paused(Graphics g){
+        String msg = "Paused";
+        Font small = new Font("Helvetica", Font.BOLD, 20);
+        FontMetrics metr = getFontMetrics(small);
+
+        g.setColor(Color.white);
+        g.setFont(small);
+        g.drawString(msg, (B_WIDTH - metr.stringWidth(msg)) / 2, B_HEIGHT / 2);
+    }
+
     private void checkApple() {
 
         if ((x[0] == apple_x) && (y[0] == apple_y)) {
@@ -144,26 +159,26 @@ public class Board extends JPanel implements ActionListener {
 
     private void move() {
 
-        for (int z = dots; z > 0; z--) {
-            x[z] = x[(z - 1)];
-            y[z] = y[(z - 1)];
-        }
+            for (int z = dots; z > 0; z--) {
+                x[z] = x[(z - 1)];
+                y[z] = y[(z - 1)];
+            }
 
-        if (leftDirection) {
-            x[0] -= DOT_SIZE;
-        }
+            if (leftDirection) {
+                x[0] -= DOT_SIZE;
+            }
 
-        if (rightDirection) {
-            x[0] += DOT_SIZE;
-        }
+            if (rightDirection) {
+                x[0] += DOT_SIZE;
+            }
 
-        if (upDirection) {
-            y[0] -= DOT_SIZE;
-        }
+            if (upDirection) {
+                y[0] -= DOT_SIZE;
+            }
 
-        if (downDirection) {
-            y[0] += DOT_SIZE;
-        }
+            if (downDirection) {
+                y[0] += DOT_SIZE;
+            }
     }
 
     private void checkCollision() {
@@ -209,10 +224,13 @@ public class Board extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (inGame) {
+            if(!paused) {
+                checkApple();
+                checkCollision();
+                move();
+            } else {
 
-            checkApple();
-            checkCollision();
-            move();
+            }
         }
 
         repaint();
@@ -225,28 +243,35 @@ public class Board extends JPanel implements ActionListener {
 
             int key = e.getKeyCode();
 
-            if ((key == KeyEvent.VK_LEFT) && (!rightDirection)) {
-                leftDirection = true;
-                upDirection = false;
-                downDirection = false;
+            if(!paused) {
+
+                if ((key == KeyEvent.VK_LEFT) && (!rightDirection)) {
+                    leftDirection = true;
+                    upDirection = false;
+                    downDirection = false;
+                }
+
+                if ((key == KeyEvent.VK_RIGHT) && (!leftDirection)) {
+                    rightDirection = true;
+                    upDirection = false;
+                    downDirection = false;
+                }
+
+                if ((key == KeyEvent.VK_UP) && (!downDirection)) {
+                    upDirection = true;
+                    rightDirection = false;
+                    leftDirection = false;
+                }
+
+                if ((key == KeyEvent.VK_DOWN) && (!upDirection)) {
+                    downDirection = true;
+                    rightDirection = false;
+                    leftDirection = false;
+                }
             }
 
-            if ((key == KeyEvent.VK_RIGHT) && (!leftDirection)) {
-                rightDirection = true;
-                upDirection = false;
-                downDirection = false;
-            }
-
-            if ((key == KeyEvent.VK_UP) && (!downDirection)) {
-                upDirection = true;
-                rightDirection = false;
-                leftDirection = false;
-            }
-
-            if ((key == KeyEvent.VK_DOWN) && (!upDirection)) {
-                downDirection = true;
-                rightDirection = false;
-                leftDirection = false;
+            if(key == KeyEvent.VK_ESCAPE || key == KeyEvent.VK_P){
+                paused = !paused;
             }
         }
     }

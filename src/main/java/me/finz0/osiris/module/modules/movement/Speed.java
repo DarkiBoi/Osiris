@@ -28,19 +28,22 @@ public class Speed extends Module {
             if(!mc.player.isSprinting()) mc.player.setSprinting(true);
             float yaw = mc.player.rotationYaw;
             if(mc.player.moveForward > 0) {
-                if(mc.player.moveStrafing != 0) {
-                    yaw += (mc.player.moveStrafing > 0) ? -45 : 45;
+                if(mc.player.movementInput.moveStrafe != 0) {
+                    yaw += (mc.player.movementInput.moveStrafe > 0) ? -45 : 45;
                 }
                 forward = 1;
                 mc.player.moveForward = 1.0f;
+                mc.player.moveStrafing = 0;
             }else if(mc.player.moveForward < 0) {
-                if(mc.player.moveStrafing != 0) {
-                    yaw += (mc.player.moveStrafing > 0) ? 45 : -45;
+                if(mc.player.movementInput.moveStrafe != 0) {
+                    yaw += (mc.player.movementInput.moveStrafe > 0) ? 45 : -45;
                 }
                 forward = -1;
                 mc.player.moveForward = -1.0f;
+                mc.player.moveStrafing = 0;
             }
             if (mc.player.onGround) {
+                mc.player.setJumping(false);
                 if (waitCounter < 1) {
                     waitCounter++;
                     return;
@@ -54,7 +57,6 @@ public class Speed extends Module {
                     mc.player.motionZ += (double) (MathHelper.cos(f) * 0.2f) * forward;
                 } else {
                     if(mc.gameSettings.keyBindJump.isPressed()){
-                        mc.player.setJumping(false);
                         mc.player.motionY = 0.405;
                         mc.player.motionX -= (double) (MathHelper.sin(f) * 0.2f) * forward;
                         mc.player.motionZ += (double) (MathHelper.cos(f) * 0.2f) * forward;

@@ -16,6 +16,7 @@
     "MixinBlockSoulSand",
     "MixinEntityPlayerSP",
     "MixinMinecraft",
-    "MixinGuiPlayerTabOverlay"
+    "MixinGuiPlayerTabOverlay",
+    "MixinGuiMainMenu"
   ]
 }

@@ -6,6 +6,8 @@ import me.finz0.osiris.command.Command;
 import me.finz0.osiris.event.events.PacketEvent;
 import me.finz0.osiris.event.events.RenderEvent;
 import me.finz0.osiris.module.Module;
+import me.finz0.osiris.module.ModuleManager;
+import me.finz0.osiris.module.modules.chat.AutoGG;
 import me.finz0.osiris.util.GeometryMasks;
 import me.finz0.osiris.util.OsirisTessellator;
 import me.finz0.osiris.util.Rainbow;
@@ -21,12 +23,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
+import net.minecraft.item.ItemAppleGold;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
+import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.*;
 import net.minecraft.util.math.*;
@@ -80,54 +85,57 @@ public class AutoCrystal extends Module {
     Setting espG;
     Setting espB;
     Setting espA;
+    Setting maxSelfDmg;
+    Setting noGappleSwitch;
 
 
     public boolean isActive = false;
 
 
     public void setup() {
-        explode = new Setting("Hit", this, true);
+        explode = new Setting("caHit", this, true);
         OsirisMod.getInstance().settingsManager.rSetting(explode);
-        waitTick = new Setting("TickDelay", this, 1, 0, 20.0, true);
+        waitTick = new Setting("caTickDelay", this, 1, 0, 20.0, true);
         OsirisMod.getInstance().settingsManager.rSetting(waitTick);
-        range = new Setting("HitRange", this, 5.0, 0.0, 10.0, false);
+        range = new Setting("caHitRange", this, 5.0, 0.0, 10.0, false);
         OsirisMod.getInstance().settingsManager.rSetting(range);
-        walls = new Setting("WallsRange", this, 3.5, 0.0, 10.0, false);
+        walls = new Setting("caWallsRange", this, 3.5, 0.0, 10.0, false);
         OsirisMod.getInstance().settingsManager.rSetting(walls);
-        antiWeakness = new Setting("AntiWeakness", this, true);
+        antiWeakness = new Setting("caAntiWeakness", this, true);
         OsirisMod.getInstance().settingsManager.rSetting(antiWeakness);
-        nodesync = new Setting("NoDesync", this, true);
+        nodesync = new Setting("caNoDesync", this, true);
         OsirisMod.getInstance().settingsManager.rSetting(nodesync);
 
-        place = new Setting("Place", this, true);
+        place = new Setting("caPlace", this, true);
         OsirisMod.getInstance().settingsManager.rSetting(place);
-        autoSwitch = new Setting("AutoSwitch", this, true);
+        autoSwitch = new Setting("caAutoSwitch", this, true);
         OsirisMod.getInstance().settingsManager.rSetting(autoSwitch);
-        placeRange = new Setting("PlaceRange", this, 5.0, 0.0, 10.0, false);
+        OsirisMod.getInstance().settingsManager.rSetting(noGappleSwitch = new Setting("caNoGapSwitch", this, false));
+        placeRange = new Setting("caPlaceRange", this, 5.0, 0.0, 10.0, false);
         OsirisMod.getInstance().settingsManager.rSetting(placeRange);
-        minDmg = new Setting("MinDamage", this, 5.0, 0.0, 40.0, false);
+        minDmg = new Setting("caMinDamage", this, 5.0, 0.0, 40.0, false);
         OsirisMod.getInstance().settingsManager.rSetting(minDmg);
-        facePlace = new Setting("FaceplaceHP", this, 6.0, 0.0, 40.0, false);
+        facePlace = new Setting("caFaceplaceHP", this, 6.0, 0.0, 40.0, false);
         OsirisMod.getInstance().settingsManager.rSetting(facePlace);
-        raytrace = new Setting("Raytrace", this, true);
+        raytrace = new Setting("caRaytrace", this, false);
         OsirisMod.getInstance().settingsManager.rSetting(raytrace);
-        rotate = new Setting("Rotate", this, true);
+        rotate = new Setting("caRotate", this, true);
         OsirisMod.getInstance().settingsManager.rSetting(rotate);
-        spoofRotations = new Setting("SpoofAngles", this, true);
+        spoofRotations = new Setting("caSpoofAngles", this, true);
         OsirisMod.getInstance().settingsManager.rSetting(spoofRotations);
-        chat = new Setting("ToggleMsgs", this, true);
+        OsirisMod.getInstance().settingsManager.rSetting(maxSelfDmg = new Setting("caMaxSelfDmg", this, 10, 0, 36, false));
+        chat = new Setting("caToggleMsgs", this, true);
         OsirisMod.getInstance().settingsManager.rSetting(chat);
 
-        //private Setting<Boolean> rainbow = register(Settings.b("ESP Rainbow", false));
-        rainbow = new Setting("EspRainbow", this, false);
+        rainbow = new Setting("caEspRainbow", this, false);
         OsirisMod.getInstance().settingsManager.rSetting(rainbow);
-        espR = new Setting("EspRed", this, 200, 0, 255, true);
+        espR = new Setting("caEspRed", this, 200, 0, 255, true);
         OsirisMod.getInstance().settingsManager.rSetting(espR);
-        espG = new Setting("EspGreen", this, 50, 0, 255, true);
+        espG = new Setting("caEspGreen", this, 50, 0, 255, true);
         OsirisMod.getInstance().settingsManager.rSetting(espG);
-        espB = new Setting("EspBlue", this, 200, 0, 255, true);
+        espB = new Setting("caEspBlue", this, 200, 0, 255, true);
         OsirisMod.getInstance().settingsManager.rSetting(espB);
-        espA = new Setting("EspAlpha", this, 50, 0, 255, true);
+        espA = new Setting("caEspAlpha", this, 50, 0, 255, true);
         OsirisMod.getInstance().settingsManager.rSetting(espA);
     }
 
@@ -136,10 +144,11 @@ public class AutoCrystal extends Module {
         if(mc.player == null || mc.player.isDead) return; // bruh
         EntityEnderCrystal crystal = mc.world.loadedEntityList.stream()
                 .filter(entity -> entity instanceof EntityEnderCrystal)
+                .filter(e -> mc.player.getDistance(e) <= range.getValDouble())
                 .map(entity -> (EntityEnderCrystal) entity)
                 .min(Comparator.comparing(c -> mc.player.getDistance(c)))
                 .orElse(null);
-        if (explode.getValBoolean() && crystal != null && mc.player.getDistance(crystal) <= range.getValDouble()) {
+        if (explode.getValBoolean() && crystal != null) {
             if (!mc.player.canEntityBeSeen(crystal) && mc.player.getDistance(crystal) > walls.getValDouble()) return;
 
             if (waitTick.getValDouble() > 0) {
@@ -179,12 +188,13 @@ public class AutoCrystal extends Module {
                     switchCooldown = true;
                 }
             }
+
             isActive = true;
-            if(rotate.getValBoolean()){
-                lookAtPacket(crystal.posX, crystal.posY, crystal.posZ, mc.player);
-            }
-            mc.playerController.attackEntity(mc.player, crystal);
-            mc.player.swingArm(EnumHand.MAIN_HAND);
+                if (rotate.getValBoolean()) {
+                    lookAtPacket(crystal.posX, crystal.posY, crystal.posZ, mc.player);
+                }
+                mc.playerController.attackEntity(mc.player, crystal);
+                mc.player.swingArm(EnumHand.MAIN_HAND);
             isActive = false;
             return;
         } else {
@@ -216,13 +226,13 @@ public class AutoCrystal extends Module {
 
         List<BlockPos> blocks = findCrystalBlocks();
         List<Entity> entities = new ArrayList<>();
-        entities.addAll(mc.world.playerEntities.stream().filter(entityPlayer -> !Friends.isFriend(entityPlayer.getName())).collect(Collectors.toList()));
+        entities.addAll(mc.world.playerEntities.stream().filter(entityPlayer -> !Friends.isFriend(entityPlayer.getName())).sorted(Comparator.comparing(e -> mc.player.getDistance(e))).collect(Collectors.toList()));
 
         BlockPos q = null;
         double damage = .5;
         for (Entity entity : entities) {
             if(entity == mc.player) continue;
-            if (((EntityLivingBase) entity).getHealth() <= 0 || entity.isDead || mc.player == null || entity == null) {
+            if (((EntityLivingBase) entity).getHealth() <= 0 || entity.isDead || mc.player == null) {
                 continue;
             }
             for (BlockPos blockPos : blocks) {
@@ -234,8 +244,6 @@ public class AutoCrystal extends Module {
                 if(d < minDmg.getValDouble() && ((EntityLivingBase) entity).getHealth() + ((EntityLivingBase) entity).getAbsorptionAmount() > facePlace.getValDouble()) {
                     continue;
                 }
-                if(entity.getName().equals("FINZ0"))
-                    continue;
                 if (d > damage) {
                     double self = calculateDamage(blockPos.getX() + .5, blockPos.getY() + 1, blockPos.getZ() + .5, mc.player);
                     // If this deals more damage to ourselves than it does to our target, continue. This is only ignored if the crystal is sure to kill our target but not us.
@@ -243,6 +251,8 @@ public class AutoCrystal extends Module {
                     if ((self > d && !(d < ((EntityLivingBase) entity).getHealth())) || self - .5 > mc.player.getHealth()) {
                         continue;
                     }
+                    if(self > maxSelfDmg.getValDouble())
+                        continue;
                     damage = d;
                     q = blockPos;
                     renderEnt = entity;
@@ -279,10 +289,16 @@ public class AutoCrystal extends Module {
 
             if (!offhand && mc.player.inventory.currentItem != crystalSlot) {
                 if (autoSwitch.getValBoolean()) {
-                    isActive = true;
-                    mc.player.inventory.currentItem = crystalSlot;
-                    resetRotation();
-                    switchCooldown = true;
+                    if(noGappleSwitch.getValBoolean() && isEatingGap()){
+                        isActive = false;
+                        resetRotation();
+                        return;
+                    } else {
+                        isActive = true;
+                        mc.player.inventory.currentItem = crystalSlot;
+                        resetRotation();
+                        switchCooldown = true;
+                    }
                 }
                 return;
             }
@@ -299,6 +315,8 @@ public class AutoCrystal extends Module {
                 } else {
                     mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(q, EnumFacing.UP, offhand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, 0, 0, 0));
                 }
+                if(ModuleManager.isModuleEnabled("AutoGG"))
+                    AutoGG.INSTANCE.addTargetedPlayer(renderEnt.getName());
             }
             isActive = false;
         }
@@ -317,6 +335,10 @@ public class AutoCrystal extends Module {
             }
             OsirisTessellator.release();
         }
+    }
+
+    private boolean isEatingGap(){
+        return mc.player.getHeldItemMainhand().getItem() instanceof ItemAppleGold && mc.player.isHandActive();
     }
 
 
@@ -472,7 +494,7 @@ public class AutoCrystal extends Module {
             final SPacketSoundEffect packet = (SPacketSoundEffect) event.getPacket();
             if (packet.getCategory() == SoundCategory.BLOCKS && packet.getSound() == SoundEvents.ENTITY_GENERIC_EXPLODE) {
                 for (Entity e : Minecraft.getMinecraft().world.loadedEntityList) {
-                    if (e != null && e instanceof EntityEnderCrystal) {
+                    if (e instanceof EntityEnderCrystal) {
                         if (e.getDistance(packet.getX(), packet.getY(), packet.getZ()) <= 6.0f) {
                             e.setDead();
                         }

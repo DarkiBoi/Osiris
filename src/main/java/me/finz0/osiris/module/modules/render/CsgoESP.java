@@ -16,8 +16,8 @@ import net.minecraft.util.math.Vec3d;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class ESP2 extends Module {
-    public ESP2() {
+public class CsgoESP extends Module {
+    public CsgoESP() {
         super("CsgoESP", Category.RENDER);
     }
 
@@ -111,7 +111,7 @@ public class ESP2 extends Module {
 
                             glColor4f(1, 1, 1, 0.5f);
 
-                            if(ESP.isPassive(e) && passive.getValBoolean()) {
+                            if(GlowESP.isPassive(e) && passive.getValBoolean()) {
                                 glBegin(GL_LINE_LOOP);
                                 {
                                     glVertex2d(-e.width, 0);
@@ -149,7 +149,7 @@ public class ESP2 extends Module {
                                 glEnd();
                             }
 
-                            if(ESP.isMonster(e) && monsters.getValBoolean()) {
+                            if(GlowESP.isMonster(e) && monsters.getValBoolean()) {
                                 glBegin(GL_LINE_LOOP);
                                 {
                                     glVertex2d(-e.width, 0);

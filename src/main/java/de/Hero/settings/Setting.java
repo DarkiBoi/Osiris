@@ -88,6 +88,10 @@ public class Setting {
 		return this.dval;
 	}
 
+	public int getValInt(){
+		return (int)getValDouble();
+	}
+
 	public void setValDouble(double in){
 		this.dval = in;
 	}
@@ -101,15 +105,15 @@ public class Setting {
 	}
 	
 	public boolean isCombo(){
-		return this.mode.equalsIgnoreCase("Combo") ? true : false;
+		return this.mode.equalsIgnoreCase("Combo");
 	}
 	
 	public boolean isCheck(){
-		return this.mode.equalsIgnoreCase("Check") ? true : false;
+		return this.mode.equalsIgnoreCase("Check");
 	}
 	
 	public boolean isSlider(){
-		return this.mode.equalsIgnoreCase("Slider") ? true : false;
+		return this.mode.equalsIgnoreCase("Slider");
 	}
 	
 	public boolean onlyInt(){

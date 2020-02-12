@@ -53,10 +53,10 @@ public class AutoOffhand extends Module {
         crystals = mc.player.inventory.mainInventory.stream().filter(itemStack -> itemStack.getItem() == Items.END_CRYSTAL).mapToInt(ItemStack::getCount).sum();
         gapples = mc.player.inventory.mainInventory.stream().filter(itemStack -> itemStack.getItem() == Items.GOLDEN_APPLE).mapToInt(ItemStack::getCount).sum();
         if (mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING) totems++;
-        if (mc.player.getHeldItemOffhand().getItem() == Items.END_CRYSTAL) crystals += mc.player.getHeldItemOffhand().getCount();
-        if (mc.player.getHeldItemOffhand().getItem() == Items.GOLDEN_APPLE) gapples += mc.player.getHeldItemOffhand().getCount();
+        else if (mc.player.getHeldItemOffhand().getItem() == Items.END_CRYSTAL) crystals += mc.player.getHeldItemOffhand().getCount();
+        else if (mc.player.getHeldItemOffhand().getItem() == Items.GOLDEN_APPLE) gapples += mc.player.getHeldItemOffhand().getCount();
         else {
-            if (soft.getValBoolean() && !mc.player.getHeldItemOffhand().isEmpty()) return;
+            if(soft.getValBoolean() && !mc.player.getHeldItemOffhand().isEmpty()) return;
             if(mode.getValString().equalsIgnoreCase("Totem") && mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING) return;
             if(mode.getValString().equalsIgnoreCase("Crystal") && mc.player.getHeldItemOffhand().getItem() == Items.END_CRYSTAL) return;
             if(mode.getValString().equalsIgnoreCase("Gapple") && mc.player.getHeldItemOffhand().getItem() == Items.GOLDEN_APPLE) return;

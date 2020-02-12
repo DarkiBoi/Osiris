@@ -23,6 +23,7 @@ public class ClickGuiModule extends Module {
         options.add("New");
         options.add("JellyLike");
         options.add("f0nzi");
+        options.add("Windows");
         OsirisMod.getInstance().settingsManager.rSetting(new Setting("Design", this, "New", options));
         OsirisMod.getInstance().settingsManager.rSetting(new Setting("GuiRainbow", this, false));
         OsirisMod.getInstance().settingsManager.rSetting(new Setting("GuiRed", this, 255, 0, 255, true));
@@ -34,9 +35,9 @@ public class ClickGuiModule extends Module {
         mc.displayGuiScreen(OsirisMod.getInstance().clickGui);
         if(((Announcer)ModuleManager.getModuleByName("Announcer")).clickGui.getValBoolean() && ModuleManager.isModuleEnabled("Announcer") && mc.player != null)
             if(((Announcer)ModuleManager.getModuleByName("Announcer")).clientSide.getValBoolean()){
-                Command.sendClientMessage("I just opened my ClickGUI thanks to Osiris!");
+                Command.sendClientMessage(Announcer.guiMessage);
             } else {
-                mc.player.sendChatMessage("I just opened my ClickGUI thanks to Osiris!");
+                mc.player.sendChatMessage(Announcer.guiMessage);
             }
         disable();
     }

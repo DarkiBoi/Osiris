@@ -1,6 +1,7 @@
 package me.finz0.osiris.mixin.mixins;
 
 import me.finz0.osiris.OsirisMod;
+import me.finz0.osiris.module.ModuleManager;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.util.ResourceLocation;
@@ -21,7 +22,7 @@ public abstract class MixinAbstractClientPlayer {
     public void getLocationCape(CallbackInfoReturnable<ResourceLocation> cir){
         UUID uuid = getPlayerInfo().getGameProfile().getId();
 
-        if(OsirisMod.getInstance().capeUtils.hasCape(uuid)) {
+        if(ModuleManager.isModuleEnabled("Capes") && OsirisMod.getInstance().capeUtils.hasCape(uuid)) {
             cir.setReturnValue(new ResourceLocation("osiris:textures/cape.png"));
         }
     }

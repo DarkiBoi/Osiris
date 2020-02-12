@@ -83,11 +83,18 @@ public class Panel {
 			//Gui.drawRect((int) x - 4 + (int) width, (int) y + 2, (int) x - (int) 4.3 + (int) width, (int) y + (int) height - 2, Color.GRAY.getRGB());
 			Gui.drawRect((int) x - 2, (int)(y + height - 2), (int) (x + width + 2), (int)(y + height), ColorUtil.getClickGUIColor().darker().getRGB());
 			FontUtil.drawTotalCenteredStringWithShadow(title, x + width / 2, y + height / 2, 0xffffffff);
+		}else if(OsirisMod.getInstance().settingsManager.getSettingByName("Design").getValString().equalsIgnoreCase("Windows")){
+			Gui.drawRect((int)x - 2, (int)y - 2, (int)x + (int)width + 2, (int)y + (int)height + 2, Color.GRAY.getRGB());
+			Gui.drawRect((int)x, (int)y, (int)x + (int)width, (int)y + (int)height, Color.BLUE.darker().darker().darker().getRGB());
+			FontUtil.drawStringWithShadow(title, x + 2, y + height / 2 - FontUtil.getFontHeight()/2f, 0xffffffff);
 		}
 		
 		if (this.extended && !Elements.isEmpty()) {
 			double startY = y + height;
-			int epanelcolor = OsirisMod.getInstance().settingsManager.getSettingByName("Design").getValString().equalsIgnoreCase("New") ? 0xff232323 : OsirisMod.getInstance().settingsManager.getSettingByName("Design").getValString().equalsIgnoreCase("JellyLike") ? 0xbb151515 : OsirisMod.getInstance().settingsManager.getSettingByName("Design").getValString().equalsIgnoreCase("f0nzi") ? 0xbb303030 : 0;
+			int epanelcolor = OsirisMod.getInstance().settingsManager.getSettingByName("Design").getValString().equalsIgnoreCase("New") ? 0xff232323 :
+					OsirisMod.getInstance().settingsManager.getSettingByName("Design").getValString().equalsIgnoreCase("JellyLike") ? 0xbb151515 :
+					OsirisMod.getInstance().settingsManager.getSettingByName("Design").getValString().equalsIgnoreCase("f0nzi") ? 0xbb303030 :
+					OsirisMod.getInstance().settingsManager.getSettingByName("Design").getValString().equalsIgnoreCase("Windows") ? 0xffffffff : 0;
 			for (ModuleButton et : Elements) {
 				if(OsirisMod.getInstance().settingsManager.getSettingByName("Design").getValString().equalsIgnoreCase("New")){
 					Gui.drawRect((int)x - 2, (int)startY, (int)x + (int)width, (int)startY + (int)et.height + 1, outlineColor);
@@ -96,7 +103,11 @@ public class Panel {
 					Gui.drawRect((int)x - 2, (int)startY, (int)x, (int)startY + (int)height - 1, ColorUtil.getClickGUIColor().darker().getRGB());
 					Gui.drawRect((int)x + (int)width, (int)startY, (int)x + (int)width + 2, (int)startY + (int)height - 1, ColorUtil.getClickGUIColor().darker().getRGB());
 				}
-				Gui.drawRect((int)x, 	(int)startY, (int)x + (int)width, (int)startY + (int)et.height + 1, epanelcolor);
+				if(OsirisMod.getInstance().settingsManager.getSettingByName("Design").getValString().equalsIgnoreCase("Windows")){
+					Gui.drawRect((int)x - 2, (int)startY, (int)x, (int)startY + (int)height - 1, Color.GRAY.getRGB());
+					Gui.drawRect((int)x + (int)width, (int)startY, (int)x + (int)width + 2, (int)startY + (int)height - 1, Color.GRAY.getRGB());
+				}
+				Gui.drawRect((int)x, (int)startY, (int)x + (int)width, (int)startY + (int)et.height + 1, epanelcolor);
 				et.x = x + 2;
 				et.y = startY;
 				et.width = width - 4;
@@ -105,6 +116,8 @@ public class Panel {
 			}
 			if(OsirisMod.getInstance().settingsManager.getSettingByName("Design").getValString().equalsIgnoreCase("f0nzi"))
 				Gui.drawRect((int)x, (int)startY, (int)x + (int)width, (int)startY + 2, ColorUtil.getClickGUIColor().darker().getRGB());
+			if(OsirisMod.getInstance().settingsManager.getSettingByName("Design").getValString().equalsIgnoreCase("Windows"))
+				Gui.drawRect((int)x, (int)startY, (int)x + (int)width, (int)startY + 2, Color.GRAY.getRGB());
 			Gui.drawRect((int)x, (int)startY + 1, (int)x + (int)width, (int)startY + 1, epanelcolor);
 		}
 	}

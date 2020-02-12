@@ -7,6 +7,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -15,12 +17,14 @@ import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Surround extends Module {
     public Surround() {
@@ -140,21 +144,31 @@ public class Surround extends Module {
             return;
         }
 
+
+
         // place blocks
-        if(mc.world.getBlockState(northBlockPos).getMaterial().isReplaceable())
+        if(mc.world.getBlockState(northBlockPos).getMaterial().isReplaceable() && isEntitiesEmpty(northBlockPos))
             placeBlockScaffold(northBlockPos, rotate.getValBoolean());
 
-        if(mc.world.getBlockState(southBlockPos).getMaterial().isReplaceable())
+        if(mc.world.getBlockState(southBlockPos).getMaterial().isReplaceable() && isEntitiesEmpty(southBlockPos))
             placeBlockScaffold(southBlockPos, rotate.getValBoolean());
 
-        if(mc.world.getBlockState(eastBlockPos).getMaterial().isReplaceable())
+        if(mc.world.getBlockState(eastBlockPos).getMaterial().isReplaceable() && isEntitiesEmpty(eastBlockPos))
             placeBlockScaffold(eastBlockPos, rotate.getValBoolean());
 
-        if(mc.world.getBlockState(westBlockPos).getMaterial().isReplaceable())
+        if(mc.world.getBlockState(westBlockPos).getMaterial().isReplaceable() && isEntitiesEmpty(westBlockPos))
             placeBlockScaffold(westBlockPos, rotate.getValBoolean());
 
         // reset slot
         mc.player.inventory.currentItem = oldSlot;
+    }
+
+    private boolean isEntitiesEmpty(BlockPos pos){
+        List<Entity> entities =  mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(pos)).stream()
+                .filter(e -> !(e instanceof EntityItem))
+                .filter(e -> !(e instanceof EntityXPOrb))
+                .collect(Collectors.toList());
+        return entities.isEmpty();
     }
 
     public static boolean placeBlockScaffold(BlockPos pos, boolean rotate) {

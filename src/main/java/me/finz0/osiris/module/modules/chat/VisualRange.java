@@ -2,9 +2,12 @@ package me.finz0.osiris.module.modules.chat;
 
 import me.finz0.osiris.command.Command;
 import me.finz0.osiris.module.Module;
+import me.finz0.osiris.module.ModuleManager;
+import me.finz0.osiris.module.modules.misc.Notifications;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,8 +26,10 @@ public class VisualRange extends Module {
             for (Entity e : players) {
                 if (e instanceof EntityPlayer && !e.getName().equalsIgnoreCase(mc.player.getName())) {
                     if (!knownPlayers.contains(e)) {
-                        Command.sendClientMessage(e.getName() + " entered visual range.");
                         knownPlayers.add(e);
+                        Command.sendClientMessage(e.getName() + " entered visual range.");
+                        if(ModuleManager.isModuleEnabled("Notifications"))
+                            Notifications.sendNotification(e.getName() + " entered visual range.", TrayIcon.MessageType.INFO);
                     }
                 }
             }

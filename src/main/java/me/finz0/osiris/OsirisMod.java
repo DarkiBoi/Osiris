@@ -3,15 +3,18 @@ package me.finz0.osiris;
 import de.Hero.clickgui.ClickGUI;
 import de.Hero.settings.SettingsManager;
 import me.finz0.osiris.command.CommandManager;
-import me.finz0.osiris.event.ForgeEventProcessor;
+import me.finz0.osiris.event.EventProcessor;
 import me.finz0.osiris.macro.MacroManager;
 import me.finz0.osiris.module.ModuleManager;
 import me.finz0.osiris.util.CapeUtils;
 import me.finz0.osiris.util.OsirisConfig;
 import me.finz0.osiris.friends.Friends;
+import me.finz0.osiris.util.TpsUtils;
+import me.finz0.osiris.util.font.CFontRenderer;
+import me.finz0.osiris.waypoint.WaypointManager;
 import me.zero.alpine.EventBus;
 import me.zero.alpine.EventManager;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -20,11 +23,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
+import java.awt.*;
+
 @Mod(modid = OsirisMod.MODID, name = OsirisMod.MODNAME, version = OsirisMod.MODVER, clientSideOnly = true)
 public class OsirisMod {
     public static final String MODID = "osiris";
     public static final String MODNAME = "Osiris";
-    public static final String MODVER = "0.6";
+    public static final String MODVER = "0.9";
 
     public static final Logger log = LogManager.getLogger(MODNAME);
     public ClickGUI clickGui;
@@ -34,6 +39,9 @@ public class OsirisMod {
     public OsirisConfig osirisConfig;
     public CapeUtils capeUtils;
     public MacroManager macroManager;
+    EventProcessor eventProcessor;
+    public WaypointManager waypointManager;
+    public static CFontRenderer fontRenderer;
 
     public static final EventBus EVENT_BUS = new EventManager();
 
@@ -47,12 +55,15 @@ public class OsirisMod {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event){
         //log.info("PreInitialization complete!\n");
+
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event){
-        Runtime.getRuntime().addShutdownHook(new ShutDownHookerino());
-        MinecraftForge.EVENT_BUS.register(new ForgeEventProcessor());
+        eventProcessor = new EventProcessor();
+        eventProcessor.init();
+        fontRenderer = new CFontRenderer(new Font("Times", Font.PLAIN, 20), true, false);
+        TpsUtils tpsUtils = new TpsUtils();
 
         settingsManager = new SettingsManager();
         log.info("Settings initialized!");
@@ -70,10 +81,14 @@ public class OsirisMod {
         log.info("Macros initialised!");
 
         osirisConfig = new OsirisConfig();
+        Runtime.getRuntime().addShutdownHook(new ShutDownHookerino());
         log.info("Config loaded!");
 
         CommandManager.initCommands();
         log.info("Commands initialised!");
+
+        waypointManager = new WaypointManager();
+        log.info("Waypoints initialised!");
 
         log.info("Initialization complete!\n");
     }

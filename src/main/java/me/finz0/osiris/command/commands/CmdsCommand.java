@@ -12,8 +12,8 @@ import net.minecraft.util.text.event.HoverEvent;
 
 public class CmdsCommand extends Command {
     @Override
-    public String getAlias() {
-        return "commands";
+    public String[] getAlias() {
+        return new String[]{"commands", "cmds"};
     }
 
     @Override
@@ -30,7 +30,7 @@ public class CmdsCommand extends Command {
         for (int i = 0; i < size; i++) {
             final Command c = CommandManager.getCommands().get(i);
             if (c != null) {
-                msg.appendSibling(new TextComponentString(c.getAlias() + ((i == size - 1) ? "" : ", "))
+                msg.appendSibling(new TextComponentString(c.getAlias()[0] + ((i == size - 1) ? "" : ", "))
                         .setStyle(new Style()
                                 .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString(c.getSyntax())))));
             }

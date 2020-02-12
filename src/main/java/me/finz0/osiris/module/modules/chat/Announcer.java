@@ -52,6 +52,14 @@ public class Announcer extends Module {
     public Setting clickGui;
     Setting delay;
 
+    public static String walkMessage = "I just walked {blocks} blocks thanks to Osiris!";
+    public static String placeMessage = "I just placed {amount} {name} thanks to Osiris!";
+    public static String jumpMessage = "I just jumped thanks to Osiris!";
+    public static String breakMessage = "I just broke {amount} {name} thanks to Osiris!";
+    public static String attackMessage = "I just attacked {name} with a {item} thanks to Osiris!";
+    public static String eatMessage = "I just ate {amount} {name} thanks to Osiris!";
+    public static String guiMessage = "I just opened my ClickGUI thanks to Osiris!";
+
     public void setup(){
         OsirisMod.getInstance().settingsManager.rSetting(clientSide = new Setting("anClientSide", this, true));
         OsirisMod.getInstance().settingsManager.rSetting(walk = new Setting("anWalk", this, true));
@@ -85,10 +93,12 @@ public class Announcer extends Module {
 
                 if (speed <= 1 || speed > 5000) {
                 } else {
+                    String walkAmount = new DecimalFormat("0").format(speed);
+
                     if (clientSide.getValBoolean()) {
-                        Command.sendClientMessage("I just walked " + new DecimalFormat("0").format(speed) + " blocks thanks to Osiris!");
+                        Command.sendClientMessage(walkMessage.replace("{blocks}", walkAmount));
                     } else {
-                        mc.player.sendChatMessage("I just walked " + new DecimalFormat("0").format(speed) + " blocks thanks to Osiris!");
+                        mc.player.sendChatMessage(walkMessage.replace("{blocks}", walkAmount));
                     }
                     this.lastPositionUpdate = System.currentTimeMillis();
                     lastPositionX = mc.player.lastTickPosX;
@@ -109,13 +119,14 @@ public class Announcer extends Module {
                 if(eattingDelay >= 300 * delay.getValDouble()) {
                     if (eat.getValBoolean() && eaten > randomNum) {
                         if(clientSide.getValBoolean()){
-                            Command.sendClientMessage("I just ate " + eaten + " " + mc.player.getHeldItemMainhand().getDisplayName() + " thanks to Osiris!");
+                            Command.sendClientMessage
+                                    (eatMessage.replace("{amount}", eaten + "").replace("{name}",  mc.player.getHeldItemMainhand().getDisplayName()));
                         } else {
                             mc.player.sendChatMessage
-                                    ("I just ate " + eaten + " " + mc.player.getHeldItemMainhand().getDisplayName() + " thanks to Osiris!");
+                                    (eatMessage.replace("{amount}", eaten + "").replace("{name}",  mc.player.getHeldItemMainhand().getDisplayName()));
                         }
                         eaten = 0;
-                        this.eattingDelay = 0;
+                        eattingDelay = 0;
                     }
                 }
             }
@@ -127,18 +138,16 @@ public class Announcer extends Module {
         if (event.getPacket() instanceof CPacketPlayerTryUseItemOnBlock && mc.player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemBlock) {
             blocksPlaced++;
             int randomNum = ThreadLocalRandom.current().nextInt(1, 10 + 1);
-            if (this.blockPlacedDelay >= 150 * delay.getValDouble()) {
+            if (blockPlacedDelay >= 150 * delay.getValDouble()) {
                 if (place.getValBoolean() && blocksPlaced > randomNum){
-                    String msg = "I just placed " + blocksPlaced + " "
-                            + mc.player.getHeldItemMainhand().getDisplayName()
-                            + " thanks to Osiris!";
+                    String msg = placeMessage.replace("{amount}", blocksPlaced + "").replace("{name}", mc.player.getHeldItemMainhand().getDisplayName());
                     if(clientSide.getValBoolean()){
                         Command.sendClientMessage(msg);
                     } else {
                         mc.player.sendChatMessage(msg);
                     }
                     blocksPlaced = 0;
-                    this.blockPlacedDelay = 0;
+                    blockPlacedDelay = 0;
                 }
             }
         }
@@ -150,9 +159,9 @@ public class Announcer extends Module {
         int randomNum = ThreadLocalRandom.current().nextInt(1, 10 + 1);
             if (blockBrokeDelay >= 300 * delay.getValDouble()) {
                 if (breaking.getValBoolean() && blocksBroken > randomNum) {
-                String msg = "I just broke " + blocksBroken + " "
-                        + mc.world.getBlockState(event.getBlockPos()).getBlock().getLocalizedName()
-                        + " thanks to Osiris!";
+                String msg = breakMessage
+                        .replace("{amount}", blocksBroken + "")
+                        .replace("{name}", mc.world.getBlockState(event.getBlockPos()).getBlock().getLocalizedName());
                 if(clientSide.getValBoolean()){
                     Command.sendClientMessage(msg);
                 } else {
@@ -168,9 +177,7 @@ public class Announcer extends Module {
     private Listener<AttackEntityEvent> attackListener = new Listener<>(event -> {
         if (attack.getValBoolean() && !(event.getTarget() instanceof EntityEnderCrystal)) {
             if (this.attackDelay >= 300 * delay.getValDouble()) {
-                String msg = "I just attacked " + event.getTarget().getName()
-                        + " with a " + mc.player.getHeldItemMainhand().getDisplayName()
-                        + " thanks to Osiris!";
+                String msg = attackMessage.replace("{name}", event.getTarget().getName()).replace("{item}", mc.player.getHeldItemMainhand().getDisplayName());
                 if(clientSide.getValBoolean()){
                     Command.sendClientMessage(msg);
                 } else {
@@ -186,9 +193,9 @@ public class Announcer extends Module {
         if (jump.getValBoolean()) {
             if (jumpDelay >= 300 * delay.getValDouble()) {
                 if(clientSide.getValBoolean()){
-                    Command.sendClientMessage("I just jumped thanks to Osiris!");
+                    Command.sendClientMessage(jumpMessage);
                 } else {
-                    mc.player.sendChatMessage("I just jumped thanks to Osiris!");
+                    mc.player.sendChatMessage(jumpMessage);
                 }
                 jumpDelay = 0;
             }
@@ -197,6 +204,10 @@ public class Announcer extends Module {
 
     public void onEnable(){
         OsirisMod.EVENT_BUS.subscribe(this);
+        blocksPlaced = 0;
+        blocksBroken = 0;
+        eaten = 0;
+        speed = 0;
     }
 
     public void onDisable(){

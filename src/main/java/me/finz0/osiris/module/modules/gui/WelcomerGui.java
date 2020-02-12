@@ -15,15 +15,15 @@ public class WelcomerGui extends Module {
         setDrawn(false);
     }
 
-    Setting red;
-    Setting green;
-    Setting blue;
-    Setting x;
-    Setting y;
-    Setting rainbow;
-    Setting message;
+    public Setting red;
+    public Setting green;
+    public Setting blue;
+    public Setting x;
+    public Setting y;
+    public Setting rainbow;
+    public Setting message;
     ArrayList<String> messages;
-    String text = "";
+    public String text = "";
 
     public void setup(){
         messages = new ArrayList<>();
@@ -57,9 +57,9 @@ public class WelcomerGui extends Module {
         if(message.getValString().equalsIgnoreCase("Hello2"))
             text = "Hello " + mc.player.getName() + " ^_^";
         if(rainbow.getValBoolean()){
-            mc.fontRenderer.drawStringWithShadow(text, (int) x.getValDouble(), (int) y.getValDouble(), Rainbow.getInt());
+            //mc.fontRenderer.drawStringWithShadow(text, (int) x.getValDouble(), (int) y.getValDouble(), Rainbow.getInt());
         } else {
-            mc.fontRenderer.drawStringWithShadow(text, (int) x.getValDouble(), (int) y.getValDouble(), c.getRGB());
+            //mc.fontRenderer.drawStringWithShadow(text, (int) x.getValDouble(), (int) y.getValDouble(), c.getRGB());
         }
     }
 }

@@ -175,7 +175,7 @@ public class AutoTrap extends Module {
     }
 
     private boolean shouldPlace(BlockPos pos){
-        List<Entity> entities =  mc.world.getEntitiesWithinAABBExcludingEntity((Entity) null, new AxisAlignedBB(pos)).stream()
+        List<Entity> entities =  mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(pos)).stream()
                 .filter(e -> !(e instanceof EntityItem))
                 .filter(e -> !(e instanceof EntityXPOrb))
                 .collect(Collectors.toList());

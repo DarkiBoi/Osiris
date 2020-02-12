@@ -36,61 +36,55 @@ public class MixinMinecraft {
 
     @Inject(method = "displayGuiScreen", at = @At("HEAD"), cancellable = true)
     public void displayGuiScreen(GuiScreen guiScreenIn, CallbackInfo info) {
-        GuiScreenDisplayedEvent screenEvent = new GuiScreenDisplayedEvent(guiScreenIn);
-        OsirisMod.EVENT_BUS.post(screenEvent);
-        guiScreenIn = screenEvent.getScreen();
+        try {
+            GuiScreenDisplayedEvent screenEvent = new GuiScreenDisplayedEvent(guiScreenIn);
+            OsirisMod.EVENT_BUS.post(screenEvent);
+            guiScreenIn = screenEvent.getScreen();
 
-        if (guiScreenIn == null && this.world == null)
-        {
-            guiScreenIn = new GuiMainMenu();
-        }
-        else if (guiScreenIn == null && this.player.getHealth() <= 0.0F)
-        {
-            guiScreenIn = new GuiGameOver(null);
-        }
+            if (guiScreenIn == null && this.world == null) {
+                guiScreenIn = new GuiMainMenu();
+            } else if (guiScreenIn == null && this.player.getHealth() <= 0.0F) {
+                guiScreenIn = new GuiGameOver(null);
+            }
 
-        GuiScreen old = this.currentScreen;
-        net.minecraftforge.client.event.GuiOpenEvent event = new net.minecraftforge.client.event.GuiOpenEvent(guiScreenIn);
+            GuiScreen old = this.currentScreen;
+            net.minecraftforge.client.event.GuiOpenEvent event = new net.minecraftforge.client.event.GuiOpenEvent(guiScreenIn);
 
-        if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) return;
+            if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) return;
 
-        guiScreenIn = event.getGui();
-        if (old != null && guiScreenIn != old)
-        {
-            old.onGuiClosed();
-        }
+            guiScreenIn = event.getGui();
+            if (old != null && guiScreenIn != old) {
+                old.onGuiClosed();
+            }
 
-        if (guiScreenIn instanceof GuiMainMenu || guiScreenIn instanceof GuiMultiplayer)
-        {
-            this.gameSettings.showDebugInfo = false;
-            this.ingameGUI.getChatGUI().clearChatMessages(true);
-        }
+            if (guiScreenIn instanceof GuiMainMenu || guiScreenIn instanceof GuiMultiplayer) {
+                this.gameSettings.showDebugInfo = false;
+                this.ingameGUI.getChatGUI().clearChatMessages(true);
+            }
 
-        this.currentScreen = guiScreenIn;
+            this.currentScreen = guiScreenIn;
 
-        if (guiScreenIn != null)
-        {
-            Minecraft.getMinecraft().setIngameNotInFocus();
-            KeyBinding.unPressAllKeys();
+            if (guiScreenIn != null) {
+                Minecraft.getMinecraft().setIngameNotInFocus();
+                KeyBinding.unPressAllKeys();
 
-            while (Mouse.next())
-            {}
+                while (Mouse.next()) {
+                }
 
-            while (Keyboard.next())
-            {}
+                while (Keyboard.next()) {
+                }
 
-            ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft());
-            int i = scaledresolution.getScaledWidth();
-            int j = scaledresolution.getScaledHeight();
-            guiScreenIn.setWorldAndResolution(Minecraft.getMinecraft(), i, j);
-            this.skipRenderWorld = false;
-        }
-        else
-        {
-            this.soundHandler.resumeSounds();
-            Minecraft.getMinecraft().setIngameFocus();
-        }
+                ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft());
+                int i = scaledresolution.getScaledWidth();
+                int j = scaledresolution.getScaledHeight();
+                guiScreenIn.setWorldAndResolution(Minecraft.getMinecraft(), i, j);
+                this.skipRenderWorld = false;
+            } else {
+                this.soundHandler.resumeSounds();
+                Minecraft.getMinecraft().setIngameFocus();
+            }
 
-        info.cancel();
+            info.cancel();
+        } catch(Exception e){}
     }
 }
