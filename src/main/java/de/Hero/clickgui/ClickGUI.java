@@ -52,9 +52,8 @@ public class ClickGUI extends GuiScreen {
 	 */
 	public ClickGUI() {
 		setmgr = OsirisMod.getInstance().settingsManager;
-		
-		FontUtil.setupFontUtils();
 		panels = new ArrayList<>();
+		FontUtil.setupFontUtils();
 		double pwidth = 80;
 		double pheight = 15;
 		double px = 10;
@@ -77,8 +76,6 @@ public class ClickGUI extends GuiScreen {
 			});
 			py += pyplus;
 		}
-
-		HudComponentManager hudComponentManager = new HudComponentManager(px, py, this);
 		
 		/*
 		 * Wieso nicht einfach
@@ -110,6 +107,10 @@ public class ClickGUI extends GuiScreen {
 		 * einfach weil es einfacher ist nur einmal panels zu benutzen
 		 */
 		for (Panel p : panels) {
+			p.drawScreen(mouseX, mouseY, partialTicks);
+		}
+
+		for(Panel p : HudComponentManager.hudComponents){
 			p.drawScreen(mouseX, mouseY, partialTicks);
 		}
 
@@ -233,6 +234,11 @@ public class ClickGUI extends GuiScreen {
 			if (p.mouseClicked(mouseX, mouseY, mouseButton))
 				return;
 		}
+
+		for (Panel p : HudComponentManager.hudComponents) {
+			if (p.mouseClicked(mouseX, mouseY, mouseButton))
+				return;
+		}
 		
 		/*
 		 * Nicht bentigt, aber es ist so einfach sauberer ;)
@@ -274,6 +280,10 @@ public class ClickGUI extends GuiScreen {
 		 * immer an der Maus 'festkleben' :>
 		 */
 		for (Panel p : rpanels) {
+			p.mouseReleased(mouseX, mouseY, state);
+		}
+
+		for (Panel p : HudComponentManager.hudComponents) {
 			p.mouseReleased(mouseX, mouseY, state);
 		}
 		

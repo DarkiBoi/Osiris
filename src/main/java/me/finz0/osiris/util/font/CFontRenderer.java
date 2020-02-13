@@ -22,6 +22,23 @@ public class CFontRenderer extends CFont {
         setupMinecraftColorcodes();
         setupBoldItalicIDs();
     }
+    String fontName;
+    int fontSize;
+    public String getFontName(){
+        return fontName;
+    }
+
+    public int getFontSize(){
+        return fontSize;
+    }
+
+    public void setFontName(String newName){
+        fontName = newName;
+    }
+
+    public void setFontSize(int newSize){
+        fontSize = newSize;
+    }
 
     public float drawStringWithShadow(String text, double x, double y, int color) {
         float shadowWidth = drawString(text, x + 1D, y + 1D, color, true);

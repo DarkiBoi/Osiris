@@ -1,13 +1,14 @@
 package me.finz0.osiris;
 
 import de.Hero.clickgui.ClickGUI;
+import de.Hero.hud.HudComponentManager;
 import de.Hero.settings.SettingsManager;
 import me.finz0.osiris.command.CommandManager;
 import me.finz0.osiris.event.EventProcessor;
 import me.finz0.osiris.macro.MacroManager;
 import me.finz0.osiris.module.ModuleManager;
 import me.finz0.osiris.util.CapeUtils;
-import me.finz0.osiris.util.OsirisConfig;
+import me.finz0.osiris.util.ConfigUtils;
 import me.finz0.osiris.friends.Friends;
 import me.finz0.osiris.util.TpsUtils;
 import me.finz0.osiris.util.font.CFontRenderer;
@@ -35,7 +36,7 @@ public class OsirisMod {
     public SettingsManager settingsManager;
     public Friends friends;
     public ModuleManager moduleManager;
-    public OsirisConfig osirisConfig;
+    public ConfigUtils configUtils;
     public CapeUtils capeUtils;
     public MacroManager macroManager;
     EventProcessor eventProcessor;
@@ -74,12 +75,13 @@ public class OsirisMod {
         log.info("Modules initialized!");
 
         clickGui = new ClickGUI();
+        HudComponentManager hudComponentManager = new HudComponentManager(0, 0, clickGui);
         log.info("ClickGUI initialized!");
 
         macroManager = new MacroManager();
         log.info("Macros initialised!");
 
-        osirisConfig = new OsirisConfig();
+        configUtils = new ConfigUtils();
         Runtime.getRuntime().addShutdownHook(new ShutDownHookerino());
         log.info("Config loaded!");
 

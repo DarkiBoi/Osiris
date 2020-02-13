@@ -24,5 +24,7 @@ public class FontCommand extends Command {
         String font = args[0].replace("_", " ");
         int size = Integer.parseInt(args[1]);
         OsirisMod.fontRenderer = new CFontRenderer(new Font(font, Font.PLAIN, size), true, false);
+        OsirisMod.fontRenderer.setFontName(font);
+        OsirisMod.fontRenderer.setFontSize(size);
     }
 }

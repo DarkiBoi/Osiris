@@ -3,6 +3,7 @@ package me.finz0.osiris.event;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import de.Hero.clickgui.ClickGUI;
 import de.Hero.clickgui.Panel;
+import de.Hero.hud.HudComponentManager;
 import me.finz0.osiris.OsirisMod;
 import me.finz0.osiris.command.Command;
 import me.finz0.osiris.command.CommandManager;
@@ -92,9 +93,9 @@ public class EventProcessor {
             //module onRender
             ModuleManager.onRender();
             //HudCompnent stuff
-            for(Panel p : ClickGUI.panels){
-                if(p.isHudComponent && p.isHudComponentPinned && p.extended && p.visible)
-                    mc.fontRenderer.drawStringWithShadow(p.hudComponentText, (float)p.x, (float)p.y, p.hudComponentColor);
+            for(Panel p : HudComponentManager.hudComponents){
+                if(p.isHudComponent && p.isHudComponentPinned && p.extended && p.visible && !(mc.currentScreen instanceof ClickGUI))
+                    p.drawHud();
             }
         }
     }

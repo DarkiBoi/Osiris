@@ -18,7 +18,7 @@ public class LoadAnnouncerCommand extends Command {
 
     @Override
     public void onCommand(String command, String[] args) throws Exception {
-        OsirisMod.getInstance().osirisConfig.loadAnnouncer();
+        OsirisMod.getInstance().configUtils.loadAnnouncer();
         sendClientMessage("Loaded Announcer file");
     }
 }

@@ -1,10 +1,7 @@
 package me.finz0.osiris.command.commands;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
-import me.finz0.osiris.OsirisMod;
 import me.finz0.osiris.ShutDownHookerino;
 import me.finz0.osiris.command.Command;
-import me.finz0.osiris.util.OsirisConfig;
 
 public class ConfigCommand extends Command {
     @Override

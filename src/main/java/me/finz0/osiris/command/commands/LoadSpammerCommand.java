@@ -18,7 +18,7 @@ public class LoadSpammerCommand extends Command {
     @Override
     public void onCommand(String command, String[] args) throws Exception {
         Spammer.text.clear();
-        OsirisMod.getInstance().osirisConfig.loadSpammer();
+        OsirisMod.getInstance().configUtils.loadSpammer();
         Command.sendClientMessage("Loaded Spammer File");
     }
 }

@@ -3,6 +3,7 @@ package me.finz0.osiris.util;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import de.Hero.clickgui.ClickGUI;
 import de.Hero.clickgui.Panel;
+import de.Hero.hud.HudComponentManager;
 import de.Hero.settings.Setting;
 import me.finz0.osiris.OsirisMod;
 import me.finz0.osiris.command.Command;
@@ -15,10 +16,12 @@ import me.finz0.osiris.module.modules.chat.Announcer;
 import me.finz0.osiris.module.modules.chat.AutoGG;
 import me.finz0.osiris.module.modules.chat.AutoReply;
 import me.finz0.osiris.module.modules.chat.Spammer;
+import me.finz0.osiris.util.font.CFontRenderer;
 import me.finz0.osiris.waypoint.Waypoint;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
@@ -30,12 +33,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
-public class OsirisConfig {
+public class ConfigUtils {
     Minecraft mc = Minecraft.getMinecraft();
     public File Osiris;
     public File Settings;
 
-    public OsirisConfig() {
+    public ConfigUtils() {
         this.Osiris = new File(mc.gameDir + File.separator + "Osiris");
         if (!this.Osiris.exists()) {
             this.Osiris.mkdirs();
@@ -61,6 +64,8 @@ public class OsirisConfig {
         loadAutoReply();
         loadAnnouncer();
         loadWaypoints();
+        loadHudComponents();
+        loadFont();
     }
 
     public void saveBinds() {
@@ -394,7 +399,58 @@ public class OsirisConfig {
             br.close();
         } catch (Exception var17) {
             var17.printStackTrace();
-            this.saveDrawn();
+            this.saveGui();
+        }
+
+    }
+
+    public void saveHudComponents() {
+        try {
+            File file = new File(this.Osiris.getAbsolutePath(), "HudComponents.txt");
+            BufferedWriter out = new BufferedWriter(new FileWriter(file));
+            Iterator var3 = HudComponentManager.hudComponents.iterator();
+
+            while(var3.hasNext()) {
+                Panel p = (Panel)var3.next();
+                out.write(p.title + ":" + p.x + ":" + p.y + ":" + p.isHudComponentPinned);
+                out.write("\r\n");
+            }
+
+            out.close();
+        } catch (Exception var5) {
+        }
+
+    }
+
+    public void loadHudComponents() {
+        try {
+            File file = new File(this.Osiris.getAbsolutePath(), "HudComponents.txt");
+            FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+            String line;
+            while((line = br.readLine()) != null) {
+                String curLine = line.trim();
+                String name = curLine.split(":")[0];
+                String x = curLine.split(":")[1];
+                String y = curLine.split(":")[2];
+                String pin = curLine.split(":")[3];
+                double x1 = Double.parseDouble(x);
+                double y1 = Double.parseDouble(y);
+                boolean pinned = Boolean.parseBoolean(pin);
+                Panel p = HudComponentManager.getHudComponentByName(name);
+                if (p != null) {
+                    p.x = x1;
+                    p.y = y1;
+                    p.isHudComponentPinned = pinned;
+                }
+            }
+
+            br.close();
+        } catch (Exception var17) {
+            var17.printStackTrace();
+            this.saveHudComponents();
         }
 
     }
@@ -426,7 +482,42 @@ public class OsirisConfig {
             br.close();
         } catch (Exception var6) {
             var6.printStackTrace();
-            this.saveDrawn();
+            this.savePrefix();
+        }
+
+    }
+
+    public void saveFont() {
+        try {
+            File file = new File(this.Osiris.getAbsolutePath(), "Font.txt");
+            BufferedWriter out = new BufferedWriter(new FileWriter(file));
+            out.write(OsirisMod.fontRenderer.getFontName()+ ":" + OsirisMod.fontRenderer.getFontSize());
+            out.write("\r\n");
+            out.close();
+        } catch (Exception var3) {
+        }
+
+    }
+
+    public void loadFont() {
+        try {
+            File file = new File(this.Osiris.getAbsolutePath(), "Font.txt");
+            FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+            String line;
+            while((line = br.readLine()) != null) {
+                String name = line.split(":")[0];
+                String size = line.split(":")[1];
+                int sizeInt = Integer.parseInt(size);
+                OsirisMod.fontRenderer = new CFontRenderer(new Font(name, Font.PLAIN, sizeInt), true, false);
+            }
+
+            br.close();
+        } catch (Exception var6) {
+            var6.printStackTrace();
+            this.saveFont();
         }
 
     }

@@ -6,43 +6,45 @@ import de.Hero.clickgui.util.ColorUtil;
 import de.Hero.clickgui.util.FontUtil;
 import me.finz0.osiris.OsirisMod;
 import me.finz0.osiris.module.ModuleManager;
-import me.finz0.osiris.module.modules.gui.Fps;
+import me.finz0.osiris.module.modules.gui.Tps;
 import me.finz0.osiris.util.Rainbow;
-import net.minecraft.client.Minecraft;
+import me.finz0.osiris.util.TpsUtils;
 import net.minecraft.client.gui.Gui;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 
-public class FpsComponent extends Panel {
-    public FpsComponent(double ix, double iy, ClickGUI parent) {
-        super("FPS", ix, iy, 10, 10, false, parent);
+public class TpsComponent extends Panel {
+    public TpsComponent(double ix, double iy, ClickGUI parent) {
+        super("TPS", ix, iy, 10, 10, false, parent);
         this.isHudComponent = true;
 
     }
 
 
 
-    Fps mod = ((Fps)ModuleManager.getModuleByName("FPS"));
+    Tps mod = ((Tps) ModuleManager.getModuleByName("TPS"));
 
     Color c;
     boolean font;
     Color text;
     Color color;
+    DecimalFormat decimalFormat = new DecimalFormat("##.#");
 
 
     public void drawHud(){
         doStuff();
-        String fps = Minecraft.getDebugFPS() + " FPS";
-        if(font) OsirisMod.fontRenderer.drawStringWithShadow(fps, (float)x, (float)y, text.getRGB());
-        else mc.fontRenderer.drawStringWithShadow(fps, (float)x, (float)y, text.getRGB());
+        String tps = decimalFormat.format(TpsUtils.getTickRate()) + " TPS";
+        if(font) OsirisMod.fontRenderer.drawStringWithShadow(tps, (float)x, (float)y, text.getRGB());
+        else mc.fontRenderer.drawStringWithShadow(tps, (float)x, (float)y, text.getRGB());
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks){
         doStuff();
-        String fps = Minecraft.getDebugFPS() + " FPS";
-        this.hudComponentText = fps;
-        double w = mc.fontRenderer.getStringWidth(fps) + 2;
+        String tps = decimalFormat.format(TpsUtils.getTickRate()) + " TPS";
+        this.hudComponentText = tps;
+        double w = mc.fontRenderer.getStringWidth(tps) + 2;
         c = new Color(50, 50, 50, 100);
         if(isHudComponentPinned) c = new Color(ColorUtil.getClickGUIColor().darker().getRed(), ColorUtil.getClickGUIColor().darker().getGreen(), ColorUtil.getClickGUIColor().darker().getBlue(), 100);
         if (this.dragging) {
@@ -57,8 +59,8 @@ public class FpsComponent extends Panel {
         if(extended) {
             double startY = y + height;
             Gui.drawRect((int) x, (int) startY, (int) x + (int) width, (int) startY + (int) height, c.getRGB());
-            if (font) OsirisMod.fontRenderer.drawStringWithShadow(fps, (float) x, (float) startY, text.getRGB());
-            else mc.fontRenderer.drawStringWithShadow(fps, (float) x, (float) startY, text.getRGB());
+            if (font) OsirisMod.fontRenderer.drawStringWithShadow(tps, (float) x, (float) startY, text.getRGB());
+            else mc.fontRenderer.drawStringWithShadow(tps, (float) x, (float) startY, text.getRGB());
         }
     }
 

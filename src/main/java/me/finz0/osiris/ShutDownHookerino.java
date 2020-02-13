@@ -7,20 +7,22 @@ public class ShutDownHookerino extends Thread {
     }
 
     public static void saveConfig(){
-        OsirisMod.getInstance().osirisConfig.saveMods();
-        OsirisMod.getInstance().osirisConfig.saveSettingsList();
-        OsirisMod.getInstance().osirisConfig.saveBinds();
-        OsirisMod.getInstance().osirisConfig.saveDrawn();
-        OsirisMod.getInstance().osirisConfig.saveFriends();
-        OsirisMod.getInstance().osirisConfig.saveGui();
-        OsirisMod.getInstance().osirisConfig.savePrefix();
-        OsirisMod.getInstance().osirisConfig.saveRainbow();
-        OsirisMod.getInstance().osirisConfig.saveMacros();
-        OsirisMod.getInstance().osirisConfig.saveMsgs();
-        OsirisMod.getInstance().osirisConfig.saveAutoGG();
-        OsirisMod.getInstance().osirisConfig.saveSpammer();
-        OsirisMod.getInstance().osirisConfig.saveAutoReply();
-        OsirisMod.getInstance().osirisConfig.saveAnnouncer();
-        OsirisMod.getInstance().osirisConfig.saveWaypoints();
+        OsirisMod.getInstance().configUtils.saveMods();
+        OsirisMod.getInstance().configUtils.saveSettingsList();
+        OsirisMod.getInstance().configUtils.saveBinds();
+        OsirisMod.getInstance().configUtils.saveDrawn();
+        OsirisMod.getInstance().configUtils.saveFriends();
+        OsirisMod.getInstance().configUtils.saveGui();
+        OsirisMod.getInstance().configUtils.savePrefix();
+        OsirisMod.getInstance().configUtils.saveRainbow();
+        OsirisMod.getInstance().configUtils.saveMacros();
+        OsirisMod.getInstance().configUtils.saveMsgs();
+        OsirisMod.getInstance().configUtils.saveAutoGG();
+        OsirisMod.getInstance().configUtils.saveSpammer();
+        OsirisMod.getInstance().configUtils.saveAutoReply();
+        OsirisMod.getInstance().configUtils.saveAnnouncer();
+        OsirisMod.getInstance().configUtils.saveWaypoints();
+        OsirisMod.getInstance().configUtils.saveHudComponents();
+        OsirisMod.getInstance().configUtils.saveFont();
     }
 }

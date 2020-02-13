@@ -61,6 +61,8 @@ public class Panel {
 	 */
 	public void setup() {}
 
+	public void drawHud(){}
+
 	/*
 	 * Rendern des Elements.
 	 */
