@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import me.finz0.osiris.OsirisMod;
 import me.finz0.osiris.util.Rainbow;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import de.Hero.clickgui.elements.ModuleButton;
 import de.Hero.clickgui.util.ColorUtil;
@@ -22,8 +23,8 @@ public class Panel {
 	public String title;
 	public double x;
 	public double y;
-	private double x2;
-	private double y2;
+	public double x2;
+	public double y2;
 	public double width;
 	public double height;
 	public boolean dragging;
@@ -31,6 +32,13 @@ public class Panel {
 	public boolean visible;
 	public ArrayList<ModuleButton> Elements = new ArrayList<>();
 	public ClickGUI clickgui;
+
+	protected static final Minecraft mc = Minecraft.getMinecraft();
+
+	public String hudComponentText = "";
+	public boolean isHudComponent = false;
+	public boolean isHudComponentPinned = false;
+	public int hudComponentColor = 0xffffffff;
 
 	/*
 	 * Konstrukor
@@ -88,7 +96,6 @@ public class Panel {
 			Gui.drawRect((int)x, (int)y, (int)x + (int)width, (int)y + (int)height, Color.BLUE.darker().darker().darker().getRGB());
 			FontUtil.drawStringWithShadow(title, x + 2, y + height / 2 - FontUtil.getFontHeight()/2f, 0xffffffff);
 		}
-		
 		if (this.extended && !Elements.isEmpty()) {
 			double startY = y + height;
 			int epanelcolor = OsirisMod.getInstance().settingsManager.getSettingByName("Design").getValString().equalsIgnoreCase("New") ? 0xff232323 :
@@ -138,6 +145,9 @@ public class Panel {
 		} else if (mouseButton == 1 && isHovered(mouseX, mouseY)) {
 			extended = !extended;
 			return true;
+		} else if (mouseButton == 2 && isHovered(mouseX, mouseY)) {
+			if(isHudComponent)
+				isHudComponentPinned = !isHudComponentPinned;
 		} else if (extended) {
 			for (ModuleButton et : Elements) {
 				if (et.mouseClicked(mouseX, mouseY, mouseButton)) {

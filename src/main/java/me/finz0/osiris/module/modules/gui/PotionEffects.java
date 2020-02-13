@@ -4,6 +4,7 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 import de.Hero.settings.Setting;
 import me.finz0.osiris.OsirisMod;
 import me.finz0.osiris.module.Module;
+import me.finz0.osiris.util.TpsUtils;
 import net.minecraft.client.resources.I18n;
 
 import java.text.DecimalFormat;
@@ -38,7 +39,7 @@ public class PotionEffects extends Module {
         try {
             mc.player.getActivePotionEffects().forEach(effect -> {
                 String name = I18n.format(effect.getPotion().getName());
-                double duration = effect.getDuration() / Tps.INSTANCE.getTickRate();
+                double duration = effect.getDuration() / TpsUtils.getTickRate();
                 int amplifier = effect.getAmplifier() + 1;
                 int color = effect.getPotion().getLiquidColor();
                 double p1 = duration % 60;

@@ -14,7 +14,6 @@ import me.finz0.osiris.util.font.CFontRenderer;
 import me.finz0.osiris.waypoint.WaypointManager;
 import me.zero.alpine.EventBus;
 import me.zero.alpine.EventManager;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;

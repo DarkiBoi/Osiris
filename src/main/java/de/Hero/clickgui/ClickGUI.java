@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import de.Hero.hud.HudComponentManager;
 import de.Hero.settings.SettingsManager;
 import me.finz0.osiris.OsirisMod;
 import me.finz0.osiris.module.Module;
@@ -76,6 +77,8 @@ public class ClickGUI extends GuiScreen {
 			});
 			py += pyplus;
 		}
+
+		HudComponentManager hudComponentManager = new HudComponentManager(px, py, this);
 		
 		/*
 		 * Wieso nicht einfach
