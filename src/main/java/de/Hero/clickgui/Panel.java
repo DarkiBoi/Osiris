@@ -34,11 +34,8 @@ public class Panel {
 	public ClickGUI clickgui;
 
 	protected static final Minecraft mc = Minecraft.getMinecraft();
-
-	public String hudComponentText = "";
 	public boolean isHudComponent = false;
 	public boolean isHudComponentPinned = false;
-	public int hudComponentColor = 0xffffffff;
 
 	/*
 	 * Konstrukor

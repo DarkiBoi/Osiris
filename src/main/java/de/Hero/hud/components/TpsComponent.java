@@ -43,7 +43,6 @@ public class TpsComponent extends Panel {
     public void drawScreen(int mouseX, int mouseY, float partialTicks){
         doStuff();
         String tps = decimalFormat.format(TpsUtils.getTickRate()) + " TPS";
-        this.hudComponentText = tps;
         double w = mc.fontRenderer.getStringWidth(tps) + 2;
         c = new Color(50, 50, 50, 100);
         if(isHudComponentPinned) c = new Color(ColorUtil.getClickGUIColor().darker().getRed(), ColorUtil.getClickGUIColor().darker().getGreen(), ColorUtil.getClickGUIColor().darker().getBlue(), 100);

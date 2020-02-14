@@ -41,7 +41,6 @@ public class FpsComponent extends Panel {
     public void drawScreen(int mouseX, int mouseY, float partialTicks){
         doStuff();
         String fps = Minecraft.getDebugFPS() + " FPS";
-        this.hudComponentText = fps;
         double w = mc.fontRenderer.getStringWidth(fps) + 2;
         c = new Color(50, 50, 50, 100);
         if(isHudComponentPinned) c = new Color(ColorUtil.getClickGUIColor().darker().getRed(), ColorUtil.getClickGUIColor().darker().getGreen(), ColorUtil.getClickGUIColor().darker().getBlue(), 100);
