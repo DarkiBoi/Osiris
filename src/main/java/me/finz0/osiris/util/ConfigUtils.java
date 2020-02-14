@@ -3,7 +3,7 @@ package me.finz0.osiris.util;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import de.Hero.clickgui.ClickGUI;
 import de.Hero.clickgui.Panel;
-import de.Hero.hud.HudComponentManager;
+import me.finz0.osiris.hud.HudComponentManager;
 import de.Hero.settings.Setting;
 import me.finz0.osiris.OsirisMod;
 import me.finz0.osiris.command.Command;

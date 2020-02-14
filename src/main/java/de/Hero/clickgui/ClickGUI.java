@@ -5,18 +5,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import de.Hero.hud.HudComponentManager;
+import me.finz0.osiris.hud.HudComponentManager;
 import de.Hero.settings.SettingsManager;
 import me.finz0.osiris.OsirisMod;
 import me.finz0.osiris.module.Module;
 import me.finz0.osiris.module.ModuleManager;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;

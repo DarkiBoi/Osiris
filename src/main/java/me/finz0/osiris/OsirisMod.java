@@ -1,7 +1,7 @@
 package me.finz0.osiris;
 
 import de.Hero.clickgui.ClickGUI;
-import de.Hero.hud.HudComponentManager;
+import me.finz0.osiris.hud.HudComponentManager;
 import de.Hero.settings.SettingsManager;
 import me.finz0.osiris.command.CommandManager;
 import me.finz0.osiris.event.EventProcessor;

@@ -1,8 +1,8 @@
-package de.Hero.hud;
+package me.finz0.osiris.hud;
 
 import de.Hero.clickgui.ClickGUI;
 import de.Hero.clickgui.Panel;
-import de.Hero.hud.components.*;
+import me.finz0.osiris.hud.components.*;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package de.Hero.hud.components;
+package me.finz0.osiris.hud.components;
 
 import de.Hero.clickgui.ClickGUI;
 import de.Hero.clickgui.Panel;
