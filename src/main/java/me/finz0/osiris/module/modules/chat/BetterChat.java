@@ -51,12 +51,8 @@ public class BetterChat extends Module {
         if(nameHighlight.getValBoolean()){
             String s = ChatFormatting.GOLD + "" + ChatFormatting.BOLD + mc.player.getName() + ChatFormatting.RESET;
             Style style = event.getMessage().getStyle();
-            if(event.getMessage().getUnformattedText().toLowerCase().contains(name)) {
-                try {
-                    event.setMessage(new TextComponentString(event.getMessage().getFormattedText()
-                            .replace(mc.player.getName(), s)).setStyle(
-                            style.setColor(style.getColor()).setBold(style.getBold()).setClickEvent(style.getClickEvent()).setHoverEvent(style.getHoverEvent()).setInsertion(style.getInsertion()).setItalic(style.getItalic()).setObfuscated(style.getObfuscated()).setStrikethrough(style.getStrikethrough()).setUnderlined(style.getUnderlined()).setParentStyle(style)));
-                } catch(Exception e){}
+            if(!event.getMessage().getUnformattedText().startsWith("<"+mc.player.getName()+">") && event.getMessage().getUnformattedText().toLowerCase().contains(name)) {
+                event.getMessage().getStyle().setParentStyle(style.setBold(true).setColor(TextFormatting.GOLD));
             }
         }
         if(timeStamps.getValBoolean()) {

@@ -12,6 +12,7 @@ public class HudComponentManager {
         hudComponents = new ArrayList<>();
         addComponent(new FpsComponent(ix, iy, parent));
         addComponent(new TpsComponent(ix, iy + 10, parent));
+        addComponent(new ModlistComponent(ix, iy + 20, parent));
     }
 
     public static List<Panel> hudComponents;

@@ -412,7 +412,7 @@ public class ConfigUtils {
 
             while(var3.hasNext()) {
                 Panel p = (Panel)var3.next();
-                out.write(p.title + ":" + p.x + ":" + p.y + ":" + p.isHudComponentPinned);
+                out.write(p.title + ":" + p.x + ":" + p.y + ":" + p.extended + ":" + p.isHudComponentPinned);
                 out.write("\r\n");
             }
 
@@ -435,14 +435,17 @@ public class ConfigUtils {
                 String name = curLine.split(":")[0];
                 String x = curLine.split(":")[1];
                 String y = curLine.split(":")[2];
-                String pin = curLine.split(":")[3];
+                String e = curLine.split(":")[3];
+                String pin = curLine.split(":")[4];
                 double x1 = Double.parseDouble(x);
                 double y1 = Double.parseDouble(y);
+                boolean ex = Boolean.parseBoolean(e);
                 boolean pinned = Boolean.parseBoolean(pin);
                 Panel p = HudComponentManager.getHudComponentByName(name);
                 if (p != null) {
                     p.x = x1;
                     p.y = y1;
+                    p.extended = ex;
                     p.isHudComponentPinned = pinned;
                 }
             }
