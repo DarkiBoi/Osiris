@@ -9,8 +9,8 @@ import net.minecraft.inventory.ClickType;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
+//also kami skid
 public class AutoOffhand extends Module {
     public AutoOffhand() {
         super("AutoOffHand", Category.COMBAT);
