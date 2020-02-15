@@ -197,7 +197,7 @@ public class EventProcessor {
                     for (SPacketPlayerListItem.AddPlayerData playerData : packet.getEntries()) {
                         if (playerData.getProfile().getId() != mc.session.getProfile().getId()) {
                             new Thread(() -> {
-                                final String name = resolveName(playerData.getProfile().getId().toString());
+                                final String name = playerData.getProfile().getName();
                                 if (name != null) {
                                     if (mc.player != null && mc.player.ticksExisted >= 1000)
                                         OsirisMod.EVENT_BUS.post(new PlayerJoinEvent(name));

@@ -21,9 +21,8 @@ public class PortalGodMode extends Module {
     }
 
     @EventHandler
-    private Listener<PacketEvent.Send> packetSendListener = new Listener<>(event -> {
-        if(event.getPacket() instanceof CPacketConfirmTeleport){
+    private Listener<PacketEvent.Send> listener = new Listener<>(event -> {
+        if(event.getPacket() instanceof CPacketConfirmTeleport)
             event.cancel();
-        }
     });
 }

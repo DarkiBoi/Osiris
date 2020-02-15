@@ -9,13 +9,11 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.item.EntityExpBottle;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class GlowESP extends Module {

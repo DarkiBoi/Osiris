@@ -23,7 +23,7 @@ public class FastUse extends Module {
         OsirisMod.getInstance().settingsManager.rSetting(crystals);
         all = new Setting("fuEverything", this, false);
         OsirisMod.getInstance().settingsManager.rSetting(all);
-        breakS = new Setting("fuFastBreak", this, false);
+        breakS = new Setting("fuFastBreak", this, true);
         OsirisMod.getInstance().settingsManager.rSetting(breakS);
     }
 

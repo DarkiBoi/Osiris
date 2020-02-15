@@ -1,3 +1,6 @@
 -fixed timer
 -added `-font <name> <size>`
 -added public setting to welcomer
+-added settings to HitboxESP
+-removed ExpEsp
+-added BoxESP

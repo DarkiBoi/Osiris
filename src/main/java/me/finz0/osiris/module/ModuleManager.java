@@ -87,11 +87,11 @@ public class ModuleManager {
         addMod(new NoRender());
         addMod(new Tracers());
         addMod(new CsgoESP());
-        addMod(new ExpESP());
         addMod(new CapesModule());
     //    addMod(new Nametags());
         addMod(new HitboxESP());
         addMod(new FovModule());
+        addMod(new BoxESP());
         //GUI
         addMod(new ModList());
         addMod(new ClickGuiModule());

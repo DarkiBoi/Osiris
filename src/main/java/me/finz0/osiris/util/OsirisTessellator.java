@@ -63,6 +63,14 @@ public class OsirisTessellator extends Tessellator {
         GL11.glColor4f(1, 1, 1, 1);
     }
 
+    public static void drawBox(AxisAlignedBB bb, int argb, int sides) {
+        final int a = (argb >>> 24) & 0xFF;
+        final int r = (argb >>> 16) & 0xFF;
+        final int g = (argb >>> 8) & 0xFF;
+        final int b = argb & 0xFF;
+        drawBox(INSTANCE.getBuffer(), bb, r, g, b, a, sides);
+    }
+
     public static void drawBox(BlockPos blockPos, int argb, int sides) {
         final int a = (argb >>> 24) & 0xFF;
         final int r = (argb >>> 16) & 0xFF;
@@ -71,7 +79,7 @@ public class OsirisTessellator extends Tessellator {
         drawBox(blockPos, r, g, b, a, sides);
     }
 
-    public static void drawBox(BlockPos blockPos, float x, float y, float z, int argb, int sides) {
+    public static void drawBox(float x, float y, float z, int argb, int sides) {
         final int a = (argb >>> 24) & 0xFF;
         final int r = (argb >>> 16) & 0xFF;
         final int g = (argb >>> 8) & 0xFF;
@@ -91,7 +99,7 @@ public class OsirisTessellator extends Tessellator {
         return INSTANCE.getBuffer();
     }
 
-    public static void drawBox(final BufferBuilder buffer, float x, float y, float z, float w, float h, float d, int r, int g, int b, int a, int sides) {
+    public static void drawBox(BufferBuilder buffer, float x, float y, float z, float w, float h, float d, int r, int g, int b, int a, int sides) {
         if ((sides & GeometryMasks.Quad.DOWN) != 0) {
             buffer.pos(x+w, y, z).color(r, g, b, a).endVertex();
             buffer.pos(x+w, y, z+d).color(r, g, b, a).endVertex();
@@ -132,6 +140,50 @@ public class OsirisTessellator extends Tessellator {
             buffer.pos(x+w, y, z).color(r, g, b, a).endVertex();
             buffer.pos(x+w, y+h, z).color(r, g, b, a).endVertex();
             buffer.pos(x+w, y+h, z+d).color(r, g, b, a).endVertex();
+        }
+    }
+
+    public static void drawBox(BufferBuilder buffer, AxisAlignedBB bb, int r, int g, int b, int a, int sides) {
+        if ((sides & GeometryMasks.Quad.DOWN) != 0) {
+            buffer.pos(bb.maxX, bb.minY, bb.minZ).color(r, g, b, a).endVertex();
+            buffer.pos(bb.maxX, bb.minY, bb.maxZ).color(r, g, b, a).endVertex();
+            buffer.pos(bb.minX, bb.minY, bb.maxZ).color(r, g, b, a).endVertex();
+            buffer.pos(bb.minX, bb.minY, bb.minZ).color(r, g, b, a).endVertex();
+        }
+
+        if ((sides & GeometryMasks.Quad.UP) != 0) {
+            buffer.pos(bb.maxX, bb.maxY, bb.minZ).color(r, g, b, a).endVertex();
+            buffer.pos(bb.minX, bb.maxY, bb.minZ).color(r, g, b, a).endVertex();
+            buffer.pos(bb.minX, bb.maxY, bb.maxX).color(r, g, b, a).endVertex();
+            buffer.pos(bb.maxX, bb.maxY, bb.maxX).color(r, g, b, a).endVertex();
+        }
+
+        if ((sides & GeometryMasks.Quad.NORTH) != 0) {
+            buffer.pos(bb.maxX, bb.minY, bb.minZ).color(r, g, b, a).endVertex();
+            buffer.pos(bb.minX, bb.minY, bb.minZ).color(r, g, b, a).endVertex();
+            buffer.pos(bb.minX, bb.maxY, bb.minZ).color(r, g, b, a).endVertex();
+            buffer.pos(bb.maxX, bb.maxY, bb.minZ).color(r, g, b, a).endVertex();
+        }
+
+        if ((sides & GeometryMasks.Quad.SOUTH) != 0) {
+            buffer.pos(bb.minX, bb.minY, bb.maxZ).color(r, g, b, a).endVertex();
+            buffer.pos(bb.maxX, bb.minY, bb.maxZ).color(r, g, b, a).endVertex();
+            buffer.pos(bb.maxX, bb.maxY, bb.maxZ).color(r, g, b, a).endVertex();
+            buffer.pos(bb.minX, bb.maxY, bb.maxZ).color(r, g, b, a).endVertex();
+        }
+
+        if ((sides & GeometryMasks.Quad.WEST) != 0) {
+            buffer.pos(bb.minX, bb.minY, bb.minZ).color(r, g, b, a).endVertex();
+            buffer.pos(bb.minX, bb.minY, bb.maxZ).color(r, g, b, a).endVertex();
+            buffer.pos(bb.minX, bb.maxY, bb.maxZ).color(r, g, b, a).endVertex();
+            buffer.pos(bb.minX, bb.maxY, bb.minZ).color(r, g, b, a).endVertex();
+        }
+
+        if ((sides & GeometryMasks.Quad.EAST) != 0) {
+            buffer.pos(bb.maxX, bb.minY, bb.maxZ).color(r, g, b, a).endVertex();
+            buffer.pos(bb.maxX, bb.minY, bb.minZ).color(r, g, b, a).endVertex();
+            buffer.pos(bb.maxX, bb.maxY, bb.minZ).color(r, g, b, a).endVertex();
+            buffer.pos(bb.maxX, bb.maxY, bb.maxZ).color(r, g, b, a).endVertex();
         }
     }
 

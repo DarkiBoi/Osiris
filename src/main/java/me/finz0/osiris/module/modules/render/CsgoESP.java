@@ -52,17 +52,8 @@ public class CsgoESP extends Module {
                             GlStateManager.glNormal3f(0.0F, 1.0F, 0.0F);
                             GlStateManager.rotate(-viewerYaw, 0.0F, 1.0F, 0.0F);
                             GlStateManager.rotate((float)(isThirdPersonFrontal ? -1 : 1), 1.0F, 0.0F, 0.0F);
-                            //GlStateManager.disableLighting();
-                            //GlStateManager.depthMask(false);
-
-                            //GlStateManager.disableDepth();
-
-                            //GlStateManager.enableBlend();
-                            //GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-
                             glColor4f(1, 1, 1, 0.5f);
 
-                            //GlStateManager.disableTexture2D();
                             glLineWidth(3f);
                             glEnable(GL_LINE_SMOOTH);
 
@@ -305,16 +296,6 @@ public class CsgoESP extends Module {
                             OsirisTessellator.releaseGL();
                             GlStateManager.popMatrix();
                         });
-                //GlStateManager.enableDepth();
-                //GlStateManager.depthMask(true);
-                //GlStateManager.disableTexture2D();
-                //GlStateManager.enableBlend();
-                //GlStateManager.disableAlpha();
-                //GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
-                //GlStateManager.shadeModel(GL11.GL_SMOOTH);
-                //GlStateManager.disableDepth();
-                //GlStateManager.enableCull();
-                //GlStateManager.glLineWidth(1);
                 glColor4f(1,1,1, 1);
     }
 }

@@ -12,6 +12,7 @@ import net.minecraft.network.play.client.*;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+//seppuku skid, dont care enough to rewrite
 public class Blink extends Module {
     public Blink() {
         super("Blink", Category.PLAYER);

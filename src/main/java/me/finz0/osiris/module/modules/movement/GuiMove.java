@@ -1,7 +1,5 @@
 package me.finz0.osiris.module.modules.movement;
 
-import de.Hero.settings.Setting;
-import me.finz0.osiris.OsirisMod;
 import me.finz0.osiris.module.Module;
 import net.minecraft.client.gui.GuiChat;
 import org.lwjgl.input.Keyboard;

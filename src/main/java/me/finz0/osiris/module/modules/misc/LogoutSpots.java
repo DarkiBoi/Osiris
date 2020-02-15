@@ -1,7 +1,5 @@
 package me.finz0.osiris.module.modules.misc;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
-import de.Hero.settings.Setting;
 import me.finz0.osiris.OsirisMod;
 import me.finz0.osiris.command.Command;
 import me.finz0.osiris.event.events.PlayerJoinEvent;
@@ -15,13 +13,11 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import me.finz0.osiris.module.modules.combat.Surround;
 import me.finz0.osiris.util.OsirisTessellator;
 import me.zero.alpine.listener.EventHandler;
 import me.zero.alpine.listener.Listener;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.world.WorldEvent;
