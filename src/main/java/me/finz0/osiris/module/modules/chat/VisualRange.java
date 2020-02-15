@@ -38,18 +38,11 @@ public class VisualRange extends Module {
                 for (Entity e : knownPlayers) {
                     if (e instanceof EntityPlayer && !e.getName().equalsIgnoreCase(mc.player.getName())) {
                         if (!players.contains(e)) {
-                            removePlayer(e);
+                            knownPlayers.remove(e);;
                         }
                     }
                 }
             } catch(Exception e){} // ez no crasherino pt.2
-    }
-
-    private void removePlayer(Entity en){
-        knownPlayers.remove(en);
-    }
-
-    public void onEnable(){
     }
 
     public void onDisable(){
