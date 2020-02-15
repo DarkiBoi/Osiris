@@ -12,7 +12,6 @@ import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.EnumFacing;
@@ -26,6 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//kaaaaaaami
 public class Surround extends Module {
     public Surround() {
         super("Surround", Category.COMBAT);
@@ -182,11 +182,11 @@ public class Surround extends Module {
             EnumFacing side2 = side.getOpposite();
 
             // check if side is visible (facing away from player)
-            if(eyesPos.squareDistanceTo(
-                    new Vec3d(pos).add(0.5, 0.5, 0.5)) >= eyesPos
-                    .squareDistanceTo(
-                            new Vec3d(neighbor).add(0.5, 0.5, 0.5)))
-                continue;
+            //if(eyesPos.squareDistanceTo(
+            //        new Vec3d(pos).add(0.5, 0.5, 0.5)) >= eyesPos
+            //        .squareDistanceTo(
+            //                new Vec3d(neighbor).add(0.5, 0.5, 0.5)))
+            //    continue;
 
             // check if neighbor can be right clicked
             if(!canBeClicked(neighbor))
