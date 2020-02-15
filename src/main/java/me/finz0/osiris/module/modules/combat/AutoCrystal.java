@@ -28,10 +28,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
-import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.*;
 import net.minecraft.util.math.*;
@@ -47,7 +45,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+//kami skid
 public class AutoCrystal extends Module {
     public AutoCrystal() {
         super("AutoCrystal", Category.COMBAT);
@@ -55,8 +53,6 @@ public class AutoCrystal extends Module {
 
     private BlockPos render;
     private Entity renderEnt;
-    private long systemTime = -1;
-    private static boolean togglePitch = false;
     // we need this cooldown to not place from old hotbar slot, before we have switched to crystals
     private boolean switchCooldown = false;
     private boolean isAttacking = false;
