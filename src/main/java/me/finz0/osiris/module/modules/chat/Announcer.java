@@ -76,14 +76,13 @@ public class Announcer extends Module {
     public void onUpdate() {
         blockBrokeDelay++;
         blockPlacedDelay++;
-        blockBrokeDelay++;
         jumpDelay++;
         attackDelay++;
         eattingDelay++;
         heldItem = mc.player.getHeldItemMainhand().getDisplayName();
 
         if (walk.getValBoolean()) {
-            if (this.lastPositionUpdate + (5000L * delay.getValDouble()) < System.currentTimeMillis()) {
+            if (lastPositionUpdate + (5000L * delay.getValDouble()) < System.currentTimeMillis()) {
 
                 double d0 = lastPositionX - mc.player.lastTickPosX;
                 double d2 = lastPositionY - mc.player.lastTickPosY;
@@ -91,8 +90,7 @@ public class Announcer extends Module {
 
                 speed = Math.sqrt(d0 * d0 + d2 * d2 + d3 * d3);
 
-                if (speed <= 1 || speed > 5000) {
-                } else {
+                if(!(speed <= 1) && !(speed > 5000)) {
                     String walkAmount = new DecimalFormat("0").format(speed);
 
                     if (clientSide.getValBoolean()) {
@@ -100,7 +98,7 @@ public class Announcer extends Module {
                     } else {
                         mc.player.sendChatMessage(walkMessage.replace("{blocks}", walkAmount));
                     }
-                    this.lastPositionUpdate = System.currentTimeMillis();
+                    lastPositionUpdate = System.currentTimeMillis();
                     lastPositionX = mc.player.lastTickPosX;
                     lastPositionY = mc.player.lastTickPosY;
                     lastPositionZ = mc.player.lastTickPosZ;
@@ -168,7 +166,7 @@ public class Announcer extends Module {
                     mc.player.sendChatMessage(msg);
                 }
                 blocksBroken = 0;
-                this.blockBrokeDelay = 0;
+                blockBrokeDelay = 0;
             }
         }
     });
@@ -176,7 +174,7 @@ public class Announcer extends Module {
     @EventHandler
     private Listener<AttackEntityEvent> attackListener = new Listener<>(event -> {
         if (attack.getValBoolean() && !(event.getTarget() instanceof EntityEnderCrystal)) {
-            if (this.attackDelay >= 300 * delay.getValDouble()) {
+            if (attackDelay >= 300 * delay.getValDouble()) {
                 String msg = attackMessage.replace("{name}", event.getTarget().getName()).replace("{item}", mc.player.getHeldItemMainhand().getDisplayName());
                 if(clientSide.getValBoolean()){
                     Command.sendClientMessage(msg);
@@ -208,6 +206,11 @@ public class Announcer extends Module {
         blocksBroken = 0;
         eaten = 0;
         speed = 0;
+        blockBrokeDelay = 0;
+        blockPlacedDelay = 0;
+        jumpDelay = 0;
+        attackDelay = 0;
+        eattingDelay = 0;
     }
 
     public void onDisable(){
