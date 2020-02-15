@@ -1,11 +1,10 @@
 package me.finz0.osiris.module.modules.chat;
 
 import me.finz0.osiris.OsirisMod;
-import me.finz0.osiris.event.events.PacketEvent;
 import me.finz0.osiris.module.Module;
 import me.zero.alpine.listener.EventHandler;
 import me.zero.alpine.listener.Listener;
-import net.minecraft.network.play.server.SPacketChat;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 public class AutoReply extends Module {
     public AutoReply() {
@@ -15,10 +14,8 @@ public class AutoReply extends Module {
     private static String reply = "fuck off";
 
     @EventHandler
-    private Listener<PacketEvent.Receive> listener = new Listener<>(event ->{
-        if(event.getPacket() instanceof SPacketChat
-                && ((SPacketChat)event.getPacket()).getChatComponent().getUnformattedText().contains("whispers: ")
-                && !((SPacketChat)event.getPacket()).getChatComponent().getUnformattedText().startsWith(mc.player.getName())){
+    private Listener<ClientChatReceivedEvent> listener = new Listener<>(event ->{
+        if( event.getMessage().getUnformattedText().contains("whispers: ") && !event.getMessage().getUnformattedText().startsWith(mc.player.getName())){
             mc.player.sendChatMessage("/r " + reply);
         }
     });
