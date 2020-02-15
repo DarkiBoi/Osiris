@@ -3,9 +3,6 @@ package me.finz0.osiris.module.modules.gui;
 import de.Hero.settings.Setting;
 import me.finz0.osiris.OsirisMod;
 import me.finz0.osiris.module.Module;
-import me.finz0.osiris.util.Rainbow;
-
-import java.awt.*;
 
 public class Ping extends Module {
     public Ping() {
