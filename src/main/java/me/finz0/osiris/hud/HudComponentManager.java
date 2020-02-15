@@ -11,8 +11,9 @@ public class HudComponentManager {
     public HudComponentManager(double ix, double iy, ClickGUI parent){
         hudComponents = new ArrayList<>();
         addComponent(new FpsComponent(ix, iy, parent));
-        addComponent(new TpsComponent(ix, iy + 10, parent));
-        addComponent(new CoordsComponent(ix, iy + 20, parent));
+        addComponent(new TpsComponent(ix, iy + 20, parent));
+        addComponent(new CoordsComponent(ix, iy + 40, parent));
+        addComponent(new WatermarkComponent(ix, iy + 60, parent));
     }
 
     public static List<Panel> hudComponents;
