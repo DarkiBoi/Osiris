@@ -21,7 +21,7 @@ public class ChatSuffix extends Module {
     }
 
     @EventHandler
-    private Listener<PacketEvent.Send> packetSendListener = new Listener<>(event -> {
+    private Listener<PacketEvent.Send> listener = new Listener<>(event -> {
         if(event.getPacket() instanceof CPacketChatMessage){
             if(((CPacketChatMessage) event.getPacket()).getMessage().startsWith("/") || ((CPacketChatMessage) event.getPacket()).getMessage().startsWith(Command.getPrefix())) return;
             String old = ((CPacketChatMessage) event.getPacket()).getMessage();
