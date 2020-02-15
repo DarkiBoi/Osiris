@@ -154,8 +154,8 @@ public class OsirisTessellator extends Tessellator {
         if ((sides & GeometryMasks.Quad.UP) != 0) {
             buffer.pos(bb.maxX, bb.maxY, bb.minZ).color(r, g, b, a).endVertex();
             buffer.pos(bb.minX, bb.maxY, bb.minZ).color(r, g, b, a).endVertex();
-            buffer.pos(bb.minX, bb.maxY, bb.maxX).color(r, g, b, a).endVertex();
-            buffer.pos(bb.maxX, bb.maxY, bb.maxX).color(r, g, b, a).endVertex();
+            buffer.pos(bb.minX, bb.maxY, bb.maxZ).color(r, g, b, a).endVertex();
+            buffer.pos(bb.maxX, bb.maxY, bb.maxZ).color(r, g, b, a).endVertex();
         }
 
         if ((sides & GeometryMasks.Quad.NORTH) != 0) {

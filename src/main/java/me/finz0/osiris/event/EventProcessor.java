@@ -191,13 +191,12 @@ public class EventProcessor {
     @EventHandler
     private Listener<PacketEvent.Receive> receiveListener = new Listener<>(event -> {
         if (event.getPacket() instanceof SPacketPlayerListItem) {
-            final SPacketPlayerListItem packet = (SPacketPlayerListItem) event.getPacket();
-            final Minecraft mc = Minecraft.getMinecraft();
+            SPacketPlayerListItem packet = (SPacketPlayerListItem) event.getPacket();
                 if (packet.getAction() == SPacketPlayerListItem.Action.ADD_PLAYER) {
                     for (SPacketPlayerListItem.AddPlayerData playerData : packet.getEntries()) {
                         if (playerData.getProfile().getId() != mc.session.getProfile().getId()) {
                             new Thread(() -> {
-                                final String name = playerData.getProfile().getName();
+                                String name = resolveName(playerData.getProfile().getId().toString());
                                 if (name != null) {
                                     if (mc.player != null && mc.player.ticksExisted >= 1000)
                                         OsirisMod.EVENT_BUS.post(new PlayerJoinEvent(name));
@@ -232,7 +231,7 @@ public class EventProcessor {
 
         final String url = "https://api.mojang.com/user/profiles/" + uuid + "/names";
         try {
-            final String nameJson = IOUtils.toString(new URL(url));
+            final String nameJson = (new URL(url)).toString();
             if (nameJson != null && nameJson.length() > 0) {
                 final JSONArray jsonArray = (JSONArray) JSONValue.parseWithException(nameJson);
                 if (jsonArray != null) {
