@@ -515,6 +515,9 @@ public class ConfigUtils {
                 String size = line.split(":")[1];
                 int sizeInt = Integer.parseInt(size);
                 OsirisMod.fontRenderer = new CFontRenderer(new Font(name, Font.PLAIN, sizeInt), true, false);
+                OsirisMod.fontRenderer.setFont(new Font(name, Font.PLAIN, sizeInt));
+                OsirisMod.fontRenderer.setAntiAlias(true);
+                OsirisMod.fontRenderer.setFractionalMetrics(false);
             }
 
             br.close();
