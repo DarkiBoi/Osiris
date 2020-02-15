@@ -6,7 +6,6 @@ import me.finz0.osiris.OsirisMod;
 import me.finz0.osiris.command.Command;
 import me.finz0.osiris.module.Module;
 
-import me.finz0.osiris.module.modules.render.HoleESP;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -14,15 +13,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+//wrote this like a long time ago code is bad but it works so whatever
 public class HoleFill extends Module {
     public HoleFill() {
         super("HoleFill", Category.COMBAT);
