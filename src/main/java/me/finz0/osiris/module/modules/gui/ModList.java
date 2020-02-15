@@ -25,6 +25,7 @@ public class ModList extends Module {
     Setting sortUp;
     Setting right;
     Setting rainbow;
+    Setting customFont;
     Color c;
 
     public void setup(){
@@ -43,6 +44,7 @@ public class ModList extends Module {
         right = new Setting("AlignRight", this, false);
         OsirisMod.getInstance().settingsManager.rSetting(right);
         OsirisMod.getInstance().settingsManager.rSetting(rainbow = new Setting("modlistRainbow", this, false));
+        OsirisMod.getInstance().settingsManager.rSetting(customFont = new Setting("modlistCFont", this, false));
     }
 
     public void onRender(){
@@ -62,19 +64,26 @@ public class ModList extends Module {
                     .forEach(m -> {
                         if(sortUp.getValBoolean()) {
                             if (right.getValBoolean()) {
-                                mc.fontRenderer.drawStringWithShadow(m.getName() + ChatFormatting.GRAY + " " + m.getHudInfo(), (int) x.getValDouble() - mc.fontRenderer.getStringWidth(m.getName() + ChatFormatting.GRAY + " " + m.getHudInfo()), (int) y.getValDouble() + (modCount * 10), c.getRGB());
+                                drawStringWithShadow(m.getName() + ChatFormatting.GRAY + " " + m.getHudInfo(), (int) x.getValDouble() - mc.fontRenderer.getStringWidth(m.getName() + ChatFormatting.GRAY + " " + m.getHudInfo()), (int) y.getValDouble() + (modCount * 10), c.getRGB());
                             } else {
-                                mc.fontRenderer.drawStringWithShadow(m.getName() + ChatFormatting.GRAY + " " + m.getHudInfo(), (int) x.getValDouble(), (int) y.getValDouble() + (modCount * 10), c.getRGB());
+                                drawStringWithShadow(m.getName() + ChatFormatting.GRAY + " " + m.getHudInfo(), (int) x.getValDouble(), (int) y.getValDouble() + (modCount * 10), c.getRGB());
                             }
                             modCount++;
                         } else {
                             if (right.getValBoolean()) {
-                                mc.fontRenderer.drawStringWithShadow(m.getName() + ChatFormatting.GRAY + " " + m.getHudInfo(), (int) x.getValDouble() - mc.fontRenderer.getStringWidth(m.getName() + ChatFormatting.GRAY + " " + m.getHudInfo()), (int) y.getValDouble() + (modCount * -10), c.getRGB());
+                                drawStringWithShadow(m.getName() + ChatFormatting.GRAY + " " + m.getHudInfo(), (int) x.getValDouble() - mc.fontRenderer.getStringWidth(m.getName() + ChatFormatting.GRAY + " " + m.getHudInfo()), (int) y.getValDouble() + (modCount * -10), c.getRGB());
                             } else {
-                                mc.fontRenderer.drawStringWithShadow(m.getName() + ChatFormatting.GRAY + " " + m.getHudInfo(), (int) x.getValDouble(), (int) y.getValDouble() + (modCount * -10), c.getRGB());
+                                drawStringWithShadow(m.getName() + ChatFormatting.GRAY + " " + m.getHudInfo(), (int) x.getValDouble(), (int) y.getValDouble() + (modCount * -10), c.getRGB());
                             }
                             modCount++;
                         }
                     });
+    }
+
+    private void drawStringWithShadow(String text, int x, int y, int color){
+        if(customFont.getValBoolean())
+            OsirisMod.fontRenderer.drawStringWithShadow(text, x, y, color);
+        else
+            mc.fontRenderer.drawStringWithShadow(text, x, y, color);
     }
 }
