@@ -8,10 +8,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ClickType;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,15 +26,24 @@ public class SmartOffhand extends Module {
     int crystals;
     boolean moving = false;
     boolean returnI = false;
+    Item item;
 
     Setting health;
+    Setting crystalCheck;
+    Setting itemSetting;
 
     public void setup(){
+        ArrayList<String> items = new ArrayList<>();
+        items.add("Crystal");
+        items.add("Gapple");
         OsirisMod.getInstance().settingsManager.rSetting(health = new Setting("soHealth", this, 10, 1, 40, true));
+        OsirisMod.getInstance().settingsManager.rSetting(crystalCheck = new Setting("soCrystalCheck", this, false));
+        OsirisMod.getInstance().settingsManager.rSetting(itemSetting = new Setting("soItem", this, "Crystal", items));
     }
 
-
     public void onUpdate() {
+        if(itemSetting.getValString().equalsIgnoreCase("Gapple")) item = Items.GOLDEN_APPLE;
+        else item = Items.END_CRYSTAL;
 
         if(mc.currentScreen instanceof GuiContainer) return;
         if (returnI) {
@@ -47,9 +58,9 @@ public class SmartOffhand extends Module {
             returnI = false;
         }
         totems = mc.player.inventory.mainInventory.stream().filter(itemStack -> itemStack.getItem() == Items.TOTEM_OF_UNDYING).mapToInt(ItemStack::getCount).sum();
-        crystals = mc.player.inventory.mainInventory.stream().filter(itemStack -> itemStack.getItem() == Items.END_CRYSTAL).mapToInt(ItemStack::getCount).sum();
+        crystals = mc.player.inventory.mainInventory.stream().filter(itemStack -> itemStack.getItem() == item).mapToInt(ItemStack::getCount).sum();
         if (shouldTotem() && mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING) totems++;
-        else if (!shouldTotem() && mc.player.getHeldItemOffhand().getItem() == Items.END_CRYSTAL) crystals += mc.player.getHeldItemOffhand().getCount();
+        else if (!shouldTotem() && mc.player.getHeldItemOffhand().getItem() == item) crystals += mc.player.getHeldItemOffhand().getCount();
         else {
             if (moving) {
                 mc.playerController.windowClick(0, 45, 0, ClickType.PICKUP, mc.player);
@@ -58,13 +69,13 @@ public class SmartOffhand extends Module {
                 return;
             }
             if (mc.player.inventory.getItemStack().isEmpty()) {
-                if(!shouldTotem() && mc.player.getHeldItemOffhand().getItem() == Items.END_CRYSTAL) return;
+                if(!shouldTotem() && mc.player.getHeldItemOffhand().getItem() == item) return;
                 if(shouldTotem() && mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING) return;
                 if(!shouldTotem()) {
                     if(crystals == 0) return;
                     int t = -1;
                     for (int i = 0; i < 45; i++)
-                        if (mc.player.inventory.getStackInSlot(i).getItem() == Items.END_CRYSTAL) {
+                        if (mc.player.inventory.getStackInSlot(i).getItem() == item) {
                             t = i;
                             break;
                         }
@@ -99,8 +110,11 @@ public class SmartOffhand extends Module {
     private boolean shouldTotem(){
         boolean hp = (mc.player.getHealth() + mc.player.getAbsorptionAmount()) <= health.getValInt();
         boolean endcrystal = !isCrystalsAABBEmpty();
-        boolean totemCount = totems > 0;
-        return  (hp || endcrystal) && totemCount;
+        boolean totemCount = (totems > 0) || mc.player.inventory.getItemStack().getItem() == Items.TOTEM_OF_UNDYING;
+        if(crystalCheck.getValBoolean())
+            return (hp || endcrystal) && totemCount;
+        else
+            return  hp && totemCount;
     }
 
     private boolean isEmpty(BlockPos pos){

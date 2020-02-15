@@ -518,6 +518,8 @@ public class ConfigUtils {
                 OsirisMod.fontRenderer.setFont(new Font(name, Font.PLAIN, sizeInt));
                 OsirisMod.fontRenderer.setAntiAlias(true);
                 OsirisMod.fontRenderer.setFractionalMetrics(false);
+                OsirisMod.fontRenderer.setFontName(name);
+                OsirisMod.fontRenderer.setFontSize(sizeInt);
             }
 
             br.close();
