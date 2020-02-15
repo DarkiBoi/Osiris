@@ -11,7 +11,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.CPacketChatMessage;
 import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,7 +18,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-//heph skid because fuck you
+//heph skid
 public class AutoGG extends Module {
     public static AutoGG INSTANCE;
     public AutoGG() {
