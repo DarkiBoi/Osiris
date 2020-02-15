@@ -5,11 +5,11 @@ import me.finz0.osiris.event.events.PacketEvent;
 import me.finz0.osiris.module.Module;
 import me.zero.alpine.listener.EventHandler;
 import me.zero.alpine.listener.Listener;
-import net.minecraft.init.Items;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.*;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 
+//I have no idea if this actually does anything but whatever
 public class AntiChainPop extends Module {
     public AntiChainPop() {
         super("AntiChainPop", Category.COMBAT);
@@ -30,24 +30,15 @@ public class AntiChainPop extends Module {
     });
 
     @EventHandler
-    private Listener<PacketEvent.Send> packetSendListener = new Listener<>(event -> {
+    private Listener<PacketEvent.Send> listener2 = new Listener<>(event -> {
         Packet packet = event.getPacket();
         if (packet instanceof CPacketChatMessage || packet instanceof CPacketConfirmTeleport || packet instanceof CPacketKeepAlive || packet instanceof CPacketTabComplete || packet instanceof CPacketClientStatus || packet instanceof CPacketHeldItemChange)
             return;
         if(shouldCancel){
             event.cancel();
-            //mc.player.connection.sendPacket(new CPacketConfirmTeleport());
             shouldCancel = false;
         }
     });
-
-    boolean isHoldingTotem(){
-        if (mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING || mc.player.getHeldItemMainhand().getItem() == Items.TOTEM_OF_UNDYING){
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     public void onEnable(){
         OsirisMod.EVENT_BUS.subscribe(this);
