@@ -110,11 +110,11 @@ public class SmartOffhand extends Module {
     private boolean shouldTotem(){
         boolean hp = (mc.player.getHealth() + mc.player.getAbsorptionAmount()) <= health.getValInt();
         boolean endcrystal = !isCrystalsAABBEmpty();
-        boolean totemCount = (totems > 0) || mc.player.inventory.getItemStack().getItem() == Items.TOTEM_OF_UNDYING;
+        //boolean totemCount = (totems > 0);
         if(crystalCheck.getValBoolean())
-            return (hp || endcrystal) && totemCount;
+            return (hp || endcrystal);
         else
-            return  hp && totemCount;
+            return  hp;
     }
 
     private boolean isEmpty(BlockPos pos){
