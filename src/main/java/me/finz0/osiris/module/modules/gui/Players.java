@@ -36,7 +36,7 @@ public class Players extends Module {
         count = 0;
         mc.world.loadedEntityList.stream()
                 .filter(e->e instanceof EntityPlayer)
-                .filter(e->e.getName() != mc.player.getName())
+                .filter(e->e != mc.player)
                 .forEach(e->{
                     if((((EntityPlayer) e).getHealth() + ((EntityPlayer) e).getAbsorptionAmount()) <= 5) s = ChatFormatting.RED +" "+ decimalFormat.format((((EntityPlayer) e).getHealth() + ((EntityPlayer) e).getAbsorptionAmount()));
                     if((((EntityPlayer) e).getHealth() + ((EntityPlayer) e).getAbsorptionAmount()) > 5 && (((EntityPlayer) e).getHealth() + ((EntityPlayer) e).getAbsorptionAmount()) <=15) s = ChatFormatting.YELLOW +" "+ decimalFormat.format((((EntityPlayer) e).getHealth() + ((EntityPlayer) e).getAbsorptionAmount()));
