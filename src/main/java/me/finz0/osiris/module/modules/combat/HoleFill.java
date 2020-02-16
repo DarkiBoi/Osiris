@@ -110,7 +110,7 @@ public class HoleFill extends Module {
             if (waitCounter < waitTick.getValDouble()) {
                 //  waitCounter++;
                 mc.player.inventory.currentItem = newSlot;
-                holes.forEach(blockPos -> place(blockPos));
+                holes.forEach(this::place);
                 mc.player.inventory.currentItem = oldSlot;
                 return;
             } else {

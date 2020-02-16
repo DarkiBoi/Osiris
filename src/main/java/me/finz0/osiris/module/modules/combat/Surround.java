@@ -197,7 +197,7 @@ public class Surround extends Module {
 
             // check if hitVec is within range (4.25 blocks)
             //if(eyesPos.squareDistanceTo(hitVec) > 18.0625)
-                //continue;
+            //continue;
 
             // place block
             if(rotate)
