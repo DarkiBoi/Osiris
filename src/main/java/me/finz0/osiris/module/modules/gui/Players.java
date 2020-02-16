@@ -7,7 +7,6 @@ import me.finz0.osiris.module.Module;
 import me.finz0.osiris.friends.Friends;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
-import net.minecraft.potion.Potion;
 
 import java.text.DecimalFormat;
 
@@ -51,10 +50,10 @@ public class Players extends Module {
                     if((((EntityPlayer) e).getHealth() + ((EntityPlayer) e).getAbsorptionAmount()) > 5 && (((EntityPlayer) e).getHealth() + ((EntityPlayer) e).getAbsorptionAmount()) <=15) s = ChatFormatting.YELLOW +" "+ decimalFormat.format((((EntityPlayer) e).getHealth() + ((EntityPlayer) e).getAbsorptionAmount()));
                     if((((EntityPlayer) e).getHealth() + ((EntityPlayer) e).getAbsorptionAmount()) >15) s = ChatFormatting.GREEN +" "+ decimalFormat.format((((EntityPlayer) e).getHealth() + ((EntityPlayer) e).getAbsorptionAmount()));
                     if(right.getValBoolean()) {
-                            if(font) OsirisMod.fontRenderer.drawStringWithShadow(cf + e.getName() + s, (int) x.getValDouble() - mc.fontRenderer.getStringWidth(ChatFormatting.AQUA + e.getName() + s), (int) y.getValDouble() + count, 0xffffffff);
-                            else mc.fontRenderer.drawStringWithShadow(cf + e.getName() + s, (int) x.getValDouble() - mc.fontRenderer.getStringWidth(ChatFormatting.AQUA + e.getName() + s), (int) y.getValDouble() + count, 0xffffffff);
+                            if(font) OsirisMod.fontRenderer.drawStringWithShadow(cf + e.getName() + s, (int) x.getValDouble() - OsirisMod.fontRenderer.getStringWidth(cf + e.getName() + s), (int) y.getValDouble() + count, 0xffffffff);
+                            else mc.fontRenderer.drawStringWithShadow(cf + e.getName() + s, (int) x.getValDouble() - mc.fontRenderer.getStringWidth(cf + e.getName() + s), (int) y.getValDouble() + count, 0xffffffff);
                     } else {
-                            if(font) OsirisMod.fontRenderer.drawStringWithShadow(ChatFormatting.GRAY + e.getName() + s, (int) x.getValDouble(), (int) y.getValDouble() + count, 0xffffffff);
+                            if(font) OsirisMod.fontRenderer.drawStringWithShadow(cf + e.getName() + s, (int) x.getValDouble(), (int) y.getValDouble() + count, 0xffffffff);
                             else mc.fontRenderer.drawStringWithShadow(cf + e.getName() + s, (int) x.getValDouble(), (int) y.getValDouble() + count, 0xffffffff);
                     }
                     count += 10;
