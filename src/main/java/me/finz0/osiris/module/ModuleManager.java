@@ -32,7 +32,6 @@ public class ModuleManager {
         addMod(new HoleFill());
         addMod(new Criticals());
         addMod(new SmartOffhand());
-        addMod(new AutoWeb());
         //Player
         addMod(new Blink());
         addMod(new PortalGodMode());

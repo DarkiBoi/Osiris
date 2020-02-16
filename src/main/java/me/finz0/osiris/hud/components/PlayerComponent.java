@@ -25,8 +25,11 @@ public class PlayerComponent extends Panel {
 
 
     public void drawHud(){
-        mouseXX = mc.getRenderManager().playerViewY * -1;
+        mouseXX = mc.getRenderManager().playerViewY / 5 * -1;
         mouseYY = mc.getRenderManager().playerViewX * -1;
+        //TODO: fix
+        if(mouseXX < -10) mouseXX = -10;
+        if(mouseXX > 10) mouseXX = 10;
         GuiInventory.drawEntityOnScreen((int)x + 21, (int)y + 60, 30, mouseXX, mouseYY, mc.player);
     }
 
