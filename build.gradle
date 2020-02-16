@@ -58,7 +58,6 @@ repositories {
 }
 
 dependencies {
-    //mixin needs to be distributed with the mod, very important
     compile("org.spongepowered:mixin:0.7.4-SNAPSHOT") {
         exclude module: 'launchwrapper'
         exclude module: 'guava'
@@ -68,10 +67,6 @@ dependencies {
     compile "com.github.ZeroMemes:Alpine:1.5"
     compile group: 'net.jodah', name: 'typetools', version: '0.5.0'
     compile group: "com.googlecode.json-simple", name: "json-simple", version: "1.1.1"
-    //compile group: 'org.yaml', name: 'snakeyaml', version: '1.19'
-    //compile(group: 'org.reflections', name: 'reflections', version: '0.9.11') {
-    //    exclude group: 'com.google.guava', module: 'guava'
-    //}
 }
 
 processResources {
@@ -102,9 +97,6 @@ shadowJar {
         include(dependency('com.github.ZeroMemes:Alpine'))
         include(dependency('net.jodah:typetools'))
         include(dependency('com.googlecode.json-simple:json-simple:1.1.1'))
-        //include(dependency('org.yaml:snakeyaml'))
-        //include(dependency('org.reflections:reflections'))
-        //include(dependency('org.javassist:javassist'))
     }
     exclude 'dummyThing'
     exclude 'LICENSE.txt'

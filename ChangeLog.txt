@@ -5,4 +5,4 @@
 -removed ExpEsp
 -added BoxESP
 -smartoffhand fix when you have 1 totem left
--smartooffhand gapple setting
+-added some settings to smartoffhand
