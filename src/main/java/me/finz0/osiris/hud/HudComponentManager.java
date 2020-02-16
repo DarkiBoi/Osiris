@@ -20,6 +20,7 @@ public class HudComponentManager {
         addComponent(new TotemsComponent(ix, iy + 140, parent));
         addComponent(new TimeComponent(ix, iy + 160, parent));
         addComponent(new PvpinfoComponent(ix, iy + 180, parent));
+        addComponent(new GappsComponent(ix, iy + 200, parent));
     }
 
     public static List<Panel> hudComponents;
