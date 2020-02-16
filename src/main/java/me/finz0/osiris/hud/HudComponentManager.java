@@ -16,6 +16,7 @@ public class HudComponentManager {
         addComponent(new WatermarkComponent(ix, iy + 60, parent));
         addComponent(new BpsComponent(ix, iy + 80, parent));
         addComponent(new PingComponent(ix, iy + 100, parent));
+        addComponent(new WelcomerComponent(ix, iy + 120, parent));
     }
 
     public static List<Panel> hudComponents;
