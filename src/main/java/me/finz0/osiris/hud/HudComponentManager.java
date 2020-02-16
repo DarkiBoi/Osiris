@@ -17,6 +17,7 @@ public class HudComponentManager {
         addComponent(new BpsComponent(ix, iy + 80, parent));
         addComponent(new PingComponent(ix, iy + 100, parent));
         addComponent(new WelcomerComponent(ix, iy + 120, parent));
+        addComponent(new TotemsComponent(ix, iy + 140, parent));
     }
 
     public static List<Panel> hudComponents;
