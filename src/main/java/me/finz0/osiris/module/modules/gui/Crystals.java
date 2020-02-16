@@ -32,4 +32,8 @@ public class Crystals extends Module {
         OsirisMod.getInstance().settingsManager.rSetting(customFont = new Setting("cryCFont", this, false));
         OsirisMod.getInstance().settingsManager.rSetting(mode = new Setting("cryText", this, "Short", modes));
     }
+
+    public void onEnable(){
+        disable();
+    }
 }

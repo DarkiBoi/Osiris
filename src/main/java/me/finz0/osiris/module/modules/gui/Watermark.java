@@ -29,4 +29,8 @@ public class Watermark extends Module {
         OsirisMod.getInstance().settingsManager.rSetting(rainbow);
         OsirisMod.getInstance().settingsManager.rSetting(customFont = new Setting("markCustomFont", this, true));
     }
+
+    public void onEnable(){
+        disable();
+    }
 }

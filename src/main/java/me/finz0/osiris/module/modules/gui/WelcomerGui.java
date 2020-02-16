@@ -38,4 +38,8 @@ public class WelcomerGui extends Module {
         OsirisMod.getInstance().settingsManager.rSetting(message = new Setting("welMessage", this, "Welcome1", messages));
         OsirisMod.getInstance().settingsManager.rSetting(customFont = new Setting("welCFont", this, false));
     }
+
+    public void onEnable(){
+        disable();
+    }
 }

@@ -26,4 +26,8 @@ public class Time extends Module {
         OsirisMod.getInstance().settingsManager.rSetting(rainbow = new Setting("timeRainbow", this, false));
         OsirisMod.getInstance().settingsManager.rSetting(customFont = new Setting("timeCFont", this, false));
     }
+
+    public void onEnable(){
+        disable();
+    }
 }

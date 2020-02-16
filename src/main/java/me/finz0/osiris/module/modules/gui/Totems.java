@@ -32,4 +32,8 @@ public class Totems extends Module {
         OsirisMod.getInstance().settingsManager.rSetting(customFont = new Setting("totCFont", this, false));
         OsirisMod.getInstance().settingsManager.rSetting(mode = new Setting("totText", this, "Short", modes));
     }
+
+    public void onEnable(){
+        disable();
+    }
 }

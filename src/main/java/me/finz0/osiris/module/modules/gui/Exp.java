@@ -33,4 +33,8 @@ public class Exp extends Module {
         OsirisMod.getInstance().settingsManager.rSetting(customFont = new Setting("expCFont", this, false));
         OsirisMod.getInstance().settingsManager.rSetting(mode = new Setting("expText", this, "Short", modes));
     }
+
+    public void onEnable(){
+        disable();
+    }
 }

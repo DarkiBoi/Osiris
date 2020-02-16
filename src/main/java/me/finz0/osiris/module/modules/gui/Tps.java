@@ -30,4 +30,8 @@ public class Tps extends Module {
         OsirisMod.getInstance().settingsManager.rSetting(rainbow = new Setting("tpsRainbow", this, false));
         OsirisMod.getInstance().settingsManager.rSetting(customFont = new Setting("tpsCFont", this, false));
     }
+
+    public void onEnable(){
+        disable();
+    }
 }

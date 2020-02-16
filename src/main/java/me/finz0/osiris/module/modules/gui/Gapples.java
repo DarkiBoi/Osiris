@@ -33,4 +33,8 @@ public class Gapples extends Module {
         OsirisMod.getInstance().settingsManager.rSetting(customFont = new Setting("gapCFont", this, false));
         OsirisMod.getInstance().settingsManager.rSetting(mode = new Setting("gapText", this, "Short", modes));
     }
+
+    public void onEnable(){
+        disable();
+    }
 }

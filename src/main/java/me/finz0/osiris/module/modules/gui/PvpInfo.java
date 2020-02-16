@@ -31,4 +31,8 @@ public class PvpInfo extends Module {
         OsirisMod.getInstance().settingsManager.rSetting(onB = new Setting("piOnB", this, 0, 0, 255, true));
         OsirisMod.getInstance().settingsManager.rSetting(customFont = new Setting("piCFont", this, false));
     }
+
+    public void onEnable(){
+        disable();
+    }
 }

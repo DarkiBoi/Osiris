@@ -36,4 +36,8 @@ public class Ping extends Module {
         }
         return p;
     }
+
+    public void onEnable(){
+        disable();
+    }
 }

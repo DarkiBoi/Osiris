@@ -28,5 +28,9 @@ public class Bps extends Module {
         OsirisMod.getInstance().settingsManager.rSetting(customFont = new Setting("bpsCFont", this, false));
     }
 
+    public void onEnable(){
+        disable();
+    }
+
 
 }

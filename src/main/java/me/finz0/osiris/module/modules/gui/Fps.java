@@ -26,4 +26,8 @@ public class Fps extends Module {
         OsirisMod.getInstance().settingsManager.rSetting(rainbow = new Setting("fpsRainbow", this, false));
         OsirisMod.getInstance().settingsManager.rSetting(customFont = new Setting("fpsCFont", this, false));
     }
+
+    public void onEnable(){
+        disable();
+    }
 }

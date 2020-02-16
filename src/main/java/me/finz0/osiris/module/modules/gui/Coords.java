@@ -26,4 +26,8 @@ public class Coords extends Module {
         OsirisMod.getInstance().settingsManager.rSetting(rainbow = new Setting("coordsRainbow", this, false));
         OsirisMod.getInstance().settingsManager.rSetting(customFont = new Setting("coordsCFont", this, false));
     }
+
+    public void onEnable(){
+        disable();
+    }
 }
