@@ -6,7 +6,7 @@ import me.finz0.osiris.module.Module;
 
 public class Time extends Module {
     public Time() {
-        super("SystemTime", Category.GUI);
+        super("Time", Category.GUI);
         setDrawn(false);
     }
 

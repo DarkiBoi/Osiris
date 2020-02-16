@@ -23,7 +23,7 @@ public class TimeComponent extends Panel {
 
 
 
-    Time mod = ((Time) ModuleManager.getModuleByName("SystemTime"));
+    Time mod = ((Time) ModuleManager.getModuleByName("Time"));
 
     Color c;
     boolean font;
