@@ -23,7 +23,6 @@ public abstract class Command {
             mc.player.sendMessage(new TextComponentString("\u1d0f\ua731\u026a\u0280\u026a\ua731 \u300b"+ cf + message));
         else
             mc.player.sendMessage(new TextComponentString(cf + message));
-
     }
 
     public static Color getColorFromChatFormatting(ChatFormatting cf){
