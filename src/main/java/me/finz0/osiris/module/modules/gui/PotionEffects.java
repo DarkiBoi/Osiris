@@ -20,6 +20,7 @@ public class PotionEffects extends Module {
     Setting y;
     Setting sortUp;
     Setting right;
+    Setting customFont;
     DecimalFormat format1 = new DecimalFormat("0");
     DecimalFormat format2 = new DecimalFormat("00");
 
@@ -32,6 +33,7 @@ public class PotionEffects extends Module {
         OsirisMod.getInstance().settingsManager.rSetting(sortUp);
         right = new Setting("fxAlignRight", this, false);
         OsirisMod.getInstance().settingsManager.rSetting(right);
+        OsirisMod.getInstance().settingsManager.rSetting(customFont = new Setting("fxCFont", this, false));
     }
 
     public void onRender(){
@@ -50,20 +52,30 @@ public class PotionEffects extends Module {
                 String s = name + " " + amplifier + ChatFormatting.GRAY + " " + minutes + ":" + seconds;
                 if (sortUp.getValBoolean()) {
                     if (right.getValBoolean()) {
-                        mc.fontRenderer.drawStringWithShadow(s, (int) x.getValDouble() - mc.fontRenderer.getStringWidth(s), (int) y.getValDouble() + (count * 10), color);
+                        drawText(s, (int) x.getValDouble() - getWidth(s), (int) y.getValDouble() + (count * 10), color);
                     } else {
-                        mc.fontRenderer.drawStringWithShadow(s, (int) x.getValDouble(), (int) y.getValDouble() + (count * 10), color);
+                        drawText(s, (int) x.getValDouble(), (int) y.getValDouble() + (count * 10), color);
                     }
                     count++;
                 } else {
                     if (right.getValBoolean()) {
-                        mc.fontRenderer.drawStringWithShadow(s, (int) x.getValDouble() - mc.fontRenderer.getStringWidth(s), (int) y.getValDouble() + (count * -10), color);
+                        drawText(s, (int) x.getValDouble() - getWidth(s), (int) y.getValDouble() + (count * -10), color);
                     } else {
-                        mc.fontRenderer.drawStringWithShadow(s, (int) x.getValDouble(), (int) y.getValDouble() + (count * -10), color);
+                        drawText(s, (int) x.getValDouble(), (int) y.getValDouble() + (count * -10), color);
                     }
                     count++;
                 }
             });
         } catch(NullPointerException e){e.printStackTrace();}
+    }
+
+    private void drawText(String s, int x, int y, int color){
+        if(customFont.getValBoolean())OsirisMod.fontRenderer.drawStringWithShadow(s, x, y, color);
+        else mc.fontRenderer.drawStringWithShadow(s, x, y, color);
+    }
+
+    private int getWidth(String s){
+        if(customFont.getValBoolean()) return OsirisMod.fontRenderer.getStringWidth(s);
+        else return mc.fontRenderer.getStringWidth(s);
     }
 }

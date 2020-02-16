@@ -1,1 +1,3 @@
 -aded Player hud component
+-added CFont setting to Players and made players with strength show in red
+-added CFont setting to PotionEffects
