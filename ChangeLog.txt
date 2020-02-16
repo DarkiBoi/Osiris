@@ -1,9 +1,0 @@
--fixed timer
--added `-font <name> <size>`
--added public setting to welcomer
--added settings to HitboxESP
--removed ExpEsp
--added BoxESP
--smartoffhand fix when you have 1 totem left
--added some settings to smartoffhand
--changed most gui modules to draggable hud components - right click to expand them, middle click to pin, change color and such using module settings
