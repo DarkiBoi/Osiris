@@ -29,7 +29,7 @@ import java.awt.*;
 public class OsirisMod {
     public static final String MODID = "osiris";
     public static final String MODNAME = "Osiris";
-    public static final String MODVER = "0.9";
+    public static final String MODVER = "1.0";
 
     public static final Logger log = LogManager.getLogger(MODNAME);
     public ClickGUI clickGui;
@@ -62,7 +62,7 @@ public class OsirisMod {
     public void init(FMLInitializationEvent event){
         eventProcessor = new EventProcessor();
         eventProcessor.init();
-        fontRenderer = new CFontRenderer(new Font("Times", Font.PLAIN, 20), true, false);
+        fontRenderer = new CFontRenderer(new Font("Arial", Font.PLAIN, 20), true, false);
         TpsUtils tpsUtils = new TpsUtils();
 
         settingsManager = new SettingsManager();
