@@ -22,6 +22,7 @@ public class HudComponentManager {
         addComponent(new PvpinfoComponent(ix, iy + 180, parent));
         addComponent(new GappsComponent(ix, iy + 200, parent));
         addComponent(new ExpComponent(ix, iy + 220, parent));
+        addComponent(new CrystalsComponent(ix, iy + 240, parent));
     }
 
     public static List<Panel> hudComponents;
