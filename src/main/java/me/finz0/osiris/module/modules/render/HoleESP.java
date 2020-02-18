@@ -31,6 +31,9 @@ public class HoleESP extends Module {
     Setting rainbow;
     Setting mode;
     Setting width;
+    Setting renderMode;
+
+    ArrayList<String> renderModes;
 
     private final BlockPos[] surroundOffset = {
             new BlockPos(0, -1, 0), // down
@@ -41,11 +44,6 @@ public class HoleESP extends Module {
     };
 
     public void setup(){
-        ArrayList<String> modes = new ArrayList<>();
-        modes.add("Full");
-        modes.add("Bottom");
-        modes.add("Outline");
-        modes.add("OutlineBottom");
         rangeS = new Setting("heRange", this, 8, 0, 20, true);
         OsirisMod.getInstance().settingsManager.rSetting(rangeS);
         r = new Setting("heRed", this, 255, 0, 255, true);
@@ -57,8 +55,25 @@ public class HoleESP extends Module {
         a = new Setting("heAlpha", this, 50, 0, 255, true);
         OsirisMod.getInstance().settingsManager.rSetting(a);
         OsirisMod.getInstance().settingsManager.rSetting(rainbow = new Setting("heRainbow", this, false));
-        OsirisMod.getInstance().settingsManager.rSetting(mode = new Setting("heMode", this, "Full", modes));
         OsirisMod.getInstance().settingsManager.rSetting(width = new Setting("heLineWidth", this, 3, 1, 10, true));
+
+        ArrayList<String> modes = new ArrayList<>();
+        modes.add("Box");
+        modes.add("Outline");
+
+        mode = new Setting("heMode", this, "Box", modes);
+
+        OsirisMod.getInstance().settingsManager.rSetting(mode);
+
+        renderModes = new ArrayList<>();
+        renderModes.add("Box");
+        renderModes.add("HalfBox");
+        renderModes.add("Plane");
+
+        renderMode = new Setting("heRenderMode", this, "Box", renderModes);
+
+        OsirisMod.getInstance().settingsManager.rSetting(renderMode);
+
     }
 
     private ConcurrentHashMap<BlockPos, Boolean> safeHoles;
@@ -125,14 +140,14 @@ public class HoleESP extends Module {
             return;
         }
 
-        if(!mode.getValString().equalsIgnoreCase("Outline") && !mode.getValString().equalsIgnoreCase("OutlineBottom"))
+        if(!mode.getValString().equalsIgnoreCase("outline"))
             OsirisTessellator.prepare(GL11.GL_QUADS);
 
         safeHoles.forEach((blockPos, isBedrock) -> {
             drawBox(blockPos, (int)r.getValDouble(), (int)g.getValDouble(), (int)b.getValDouble());
         });
 
-        if(!mode.getValString().equalsIgnoreCase("Outline") && !mode.getValString().equalsIgnoreCase("OutlineBottom"))
+        if(!mode.getValString().equalsIgnoreCase("outline"))
             OsirisTessellator.release();
 
     }
@@ -145,16 +160,25 @@ public class HoleESP extends Module {
             color = new Color(c.getRed(), c.getGreen(), c.getBlue(), (int)a.getValDouble());
         else
             color = new Color(r, g, b, (int)a.getValDouble());
-        if(mode.getValString().equalsIgnoreCase("Outline")){
-            OsirisTessellator.drawBoundingBox(bb, width.getValInt(), color.getRGB());
-        } else if (mode.getValString().equalsIgnoreCase("Bottom")) {
-            OsirisTessellator.drawBox(blockPos, color.getRGB(), GeometryMasks.Quad.DOWN);
-        } else if(mode.getValString().equalsIgnoreCase("OutlineBottom")){
-            OsirisTessellator.drawBoundingBoxBottom(bb, width.getValInt(), color.getRGB());
-        } else {
-            OsirisTessellator.drawBox(blockPos, color.getRGB(), GeometryMasks.Quad.ALL);
-        }
+        if(mode.getValString().equalsIgnoreCase("box")) {
+            if(renderMode.getValString().equalsIgnoreCase("box")) {
+                OsirisTessellator.drawBox(blockPos, color.getRGB(), GeometryMasks.Quad.ALL);
+            } else if(renderMode.getValString().equalsIgnoreCase("halfbox")) {
+                OsirisTessellator.drawHalfBox(blockPos, color.getRGB(),  GeometryMasks.Quad.ALL);
+            } else if(renderMode.getValString().equalsIgnoreCase("plane")) {
+                OsirisTessellator.drawBox(blockPos, color.getRGB(), GeometryMasks.Quad.DOWN);
+            }
+        } else if(mode.getValString().equalsIgnoreCase("outline")) {
+                if(renderMode.getValString().equalsIgnoreCase("box")) {
+                    OsirisTessellator.drawBoundingBox(bb, width.getValInt(), color.getRGB());
+                } else if(renderMode.getValString().equalsIgnoreCase("halfbox")) {
+                    OsirisTessellator.drawBoundingBoxHalf(bb, width.getValInt(), color.getRGB());
+                } else if(renderMode.getValString().equalsIgnoreCase("plane")) {
+                    OsirisTessellator.drawBoundingBoxBottom(bb, width.getValInt(), color.getRGB());
+                }
+            }
     }
+
 
     public List<BlockPos> getSphere(BlockPos loc, float r, int h, boolean hollow, boolean sphere, int plus_y) {
         List<BlockPos> circleblocks = new ArrayList<>();

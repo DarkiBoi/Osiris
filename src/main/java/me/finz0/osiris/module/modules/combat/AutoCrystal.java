@@ -83,6 +83,9 @@ public class AutoCrystal extends Module {
     Setting espA;
     Setting maxSelfDmg;
     Setting noGappleSwitch;
+    Setting renderMode;
+
+    ArrayList<String> renderModes;
 
 
     public boolean isActive = false;
@@ -133,6 +136,15 @@ public class AutoCrystal extends Module {
         OsirisMod.getInstance().settingsManager.rSetting(espB);
         espA = new Setting("caEspAlpha", this, 50, 0, 255, true);
         OsirisMod.getInstance().settingsManager.rSetting(espA);
+
+        renderModes = new ArrayList<>();
+        renderModes.add("Box");
+        renderModes.add("HalfBox");
+        renderModes.add("Plane");
+
+        renderMode = new Setting("caRenderMode", this, "Box", renderModes);
+        OsirisMod.getInstance().settingsManager.rSetting(renderMode);
+
     }
 
     public void onUpdate() {
@@ -325,9 +337,9 @@ public class AutoCrystal extends Module {
         if (render != null && mc.player != null) {
             OsirisTessellator.prepare(GL11.GL_QUADS);
             if(rainbow.getValBoolean()) {
-                OsirisTessellator.drawBox(render, c.getRGB(), GeometryMasks.Quad.ALL);
+                drawCurrentBlock(render, c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
             } else {
-            OsirisTessellator.drawBox(render, (int) espR.getValDouble(), (int) espG.getValDouble(), (int) espB.getValDouble(), (int) espA.getValDouble(), GeometryMasks.Quad.ALL);
+                drawCurrentBlock(render, (int) espR.getValDouble(), (int) espG.getValDouble(), (int) espB.getValDouble(), (int) espA.getValDouble());
             }
             OsirisTessellator.release();
         }
@@ -335,6 +347,16 @@ public class AutoCrystal extends Module {
 
     private boolean isEatingGap(){
         return mc.player.getHeldItemMainhand().getItem() instanceof ItemAppleGold && mc.player.isHandActive();
+    }
+
+    private void drawCurrentBlock(BlockPos render, int r, int g, int b, int a) {
+        if(renderMode.getValString().equalsIgnoreCase("box")) {
+            OsirisTessellator.drawBox(render, r, g, b, a, GeometryMasks.Quad.ALL);
+        } else if(renderMode.getValString().equalsIgnoreCase("halfbox")) {
+            OsirisTessellator.drawHalfBox(render, r, g, b, a,  GeometryMasks.Quad.ALL);
+        } else if(renderMode.getValString().equalsIgnoreCase("plane")) {
+            OsirisTessellator.drawBox(render, r, g, b, a, GeometryMasks.Quad.DOWN);
+        }
     }
 
 

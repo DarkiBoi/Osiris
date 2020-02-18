@@ -79,6 +79,22 @@ public class OsirisTessellator extends Tessellator {
         drawBox(blockPos, r, g, b, a, sides);
     }
 
+    public static void drawHalfBox(BlockPos blockPos, int argb, int sides) {
+        final int a = (argb >>> 24) & 0xFF;
+        final int r = (argb >>> 16) & 0xFF;
+        final int g = (argb >>> 8) & 0xFF;
+        final int b = argb & 0xFF;
+        drawHalfBox(blockPos, r, g, b, a, sides);
+    }
+
+    public static void drawHalfBox(float x, float y, float z, int argb, int sides) {
+        final int a = (argb >>> 24) & 0xFF;
+        final int r = (argb >>> 16) & 0xFF;
+        final int g = (argb >>> 8) & 0xFF;
+        final int b = argb & 0xFF;
+        drawBox(INSTANCE.getBuffer(), x, y, z, 1, 0.5f, 1, r, g, b, a, sides);
+    }
+
     public static void drawBox(float x, float y, float z, int argb, int sides) {
         final int a = (argb >>> 24) & 0xFF;
         final int r = (argb >>> 16) & 0xFF;
@@ -89,6 +105,10 @@ public class OsirisTessellator extends Tessellator {
 
     public static void drawBox(BlockPos blockPos, int r, int g, int b, int a, int sides) {
         drawBox(INSTANCE.getBuffer(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1, 1, 1, r, g, b, a, sides);
+    }
+
+    public static void drawHalfBox(BlockPos blockPos, int r, int g, int b, int a, int sides) {
+        drawBox(INSTANCE.getBuffer(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1, 0.5f, 1, r, g, b, a, sides);
     }
 
     public static void drawBox(Vec3d vec3d, int r, int g, int b, int a, int sides) {
@@ -328,6 +348,51 @@ public class OsirisTessellator extends Tessellator {
         bufferbuilder.pos(bb.minX, bb.minY, bb.maxZ).color(red, green, blue, alpha).endVertex();
         bufferbuilder.pos(bb.maxX, bb.minY, bb.maxZ).color(red, green, blue, alpha).endVertex();
         bufferbuilder.pos(bb.maxX, bb.minY, bb.minZ).color(red, green, blue, alpha).endVertex();
+        //tessellator.draw();
+        render();
+        GlStateManager.depthMask(true);
+        GlStateManager.enableDepth();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+        GlStateManager.popMatrix();
+    }
+
+    public static void drawBoundingBoxHalf(final AxisAlignedBB bb, final float width, final int argb) {
+        final int a = argb >>> 24 & 0xFF;
+        final int r = argb >>> 16 & 0xFF;
+        final int g = argb >>> 8 & 0xFF;
+        final int b = argb & 0xFF;
+        drawBoundingBoxHalf(bb, width, r, g, b, a);
+    }
+
+    public static void drawBoundingBoxHalf(final AxisAlignedBB bb, final float width, final int red, final int green, final int blue, final int alpha) {
+        GlStateManager.pushMatrix();
+        GlStateManager.enableBlend();
+        GlStateManager.disableDepth();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
+        GlStateManager.disableTexture2D();
+        GlStateManager.depthMask(false);
+        GlStateManager.glLineWidth(width);
+        //final Tessellator tessellator = Tessellator.getInstance();
+        //final BufferBuilder bufferbuilder = tessellator.getBuffer();
+        final BufferBuilder bufferbuilder = INSTANCE.getBuffer();
+        bufferbuilder.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        bufferbuilder.pos(bb.minX, bb.minY, bb.minZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.minX, bb.minY, bb.maxZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.maxX, bb.minY, bb.maxZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.maxX, bb.minY, bb.minZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.minX, bb.minY, bb.minZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.minX, bb.maxY - 0.5, bb.minZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.minX, bb.maxY - 0.5, bb.maxZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.minX, bb.minY, bb.maxZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.maxX, bb.minY, bb.maxZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.maxX, bb.maxY - 0.5, bb.maxZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.minX, bb.maxY - 0.5, bb.maxZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.maxX, bb.maxY - 0.5, bb.maxZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.maxX, bb.maxY - 0.5, bb.minZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.maxX, bb.minY, bb.minZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.maxX, bb.maxY - 0.5, bb.minZ).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(bb.minX, bb.maxY - 0.5, bb.minZ).color(red, green, blue, alpha).endVertex();
         //tessellator.draw();
         render();
         GlStateManager.depthMask(true);
